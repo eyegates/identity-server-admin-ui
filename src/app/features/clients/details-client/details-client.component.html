@@ -1,0 +1,278 @@
+<div class="clients-container">
+  <div class="container-fluid">
+    <mat-toolbar class="justify-content-end">
+      <div class="col-1">
+        <a
+          mat-raised-button
+          color="primary"
+          [routerLink]="['/clients', 'client1', 'edit']"
+          >Modifier</a
+        >
+      </div>
+      <div>
+        <button type="button" mat-raised-button color="warn">Supprimer</button>
+      </div>
+    </mat-toolbar>
+    <mat-toolbar>
+      <div class="col-3">
+        <h2>Client : {{ "client1" | uppercase }}</h2>
+      </div>
+    </mat-toolbar>
+  </div>
+  <div class="container-fluid">
+    <mat-card>
+      <mat-card-content>
+        <table>
+          <tr>
+            <td class="label">Client id :</td>
+            <td>client1</td>
+          </tr>
+          <tr>
+            <td class="label">Client name :</td>
+            <td>clientName</td>
+          </tr>
+          <tr>
+            <td class="label">Description :</td>
+            <td>description</td>
+          </tr>
+          <tr>
+            <td class="label">Protocol Type :</td>
+            <td>protocolType</td>
+          </tr>
+          <tr>
+            <td class="label">Client uri :</td>
+            <td>clientUri</td>
+          </tr>
+          <tr>
+            <td class="label">Logo uri :</td>
+            <td>logoUri</td>
+          </tr>
+        </table>
+        <div class="paddingTop20">
+          <div class="row">
+            <mat-chip-listbox class="mat-mdc-chip-set">
+              <mat-chip-option selected>Require secret</mat-chip-option>
+              <mat-chip-option>Require consent</mat-chip-option>
+              <mat-chip-option>Allow remember consent</mat-chip-option>
+              <mat-chip-option selected
+                >Always include user claims in idToken</mat-chip-option
+              >
+              <mat-chip-option>Require Pkce</mat-chip-option>
+              <mat-chip-option>Allow Plain Text Pkce</mat-chip-option>
+              <mat-chip-option>Allow AccessTokens Via Browser</mat-chip-option>
+              <mat-chip-option
+                >Front Channel Logout Session Required</mat-chip-option
+              >
+              <mat-chip-option
+                >Back Channel Logout Session Required</mat-chip-option
+              >
+              <mat-chip-option>Allow Offline Access</mat-chip-option>
+              <mat-chip-option
+                >Update AccessToken Claims On Refresh</mat-chip-option
+              >
+              <mat-chip-option>Enable Local Login</mat-chip-option>
+              <mat-chip-option>Include Jwt Id</mat-chip-option>
+              <mat-chip-option>Always Send Client Claims</mat-chip-option>
+            </mat-chip-listbox>
+          </div>
+        </div>
+        <div class="paddingTop20">
+          <mat-tab-group>
+            <mat-tab label="Redirect uris">
+              <!-- <redirect-uris [uris]="client?.redirectUris"></redirect-uris> -->
+              <diV class="clients-props-container">
+                <table mat-table [dataSource]="uris" class="mat-elevation-z8">
+                  <ng-container matColumnDef="redirectUri">
+                    <th mat-header-cell *matHeaderCellDef>Uris</th>
+                    <td mat-cell *matCellDef="let uri">
+                      <span>{{ uri.redirectUri }}</span>
+                    </td>
+                  </ng-container>
+                  <tr
+                    mat-header-row
+                    *matHeaderRowDef="['redirectUri']; sticky: true"
+                  ></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: ['redirectUri']"
+                  ></tr>
+                </table>
+              </diV>
+            </mat-tab>
+            <mat-tab label="Secrets">
+              <!-- <client-secrets [secrets]="client?.clientSecrets"></client-secrets> -->
+              <table mat-table [dataSource]="secrets" class="mat-elevation-z8">
+                <ng-container matColumnDef="type">
+                  <th mat-header-cell *matHeaderCellDef>Type</th>
+                  <td mat-cell *matCellDef="let secret">
+                    <span>{{ secret.type }}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="secretvalue">
+                  <th mat-header-cell *matHeaderCellDef>Secret hash</th>
+                  <td mat-cell *matCellDef="let secret">
+                    <span>{{ secret.value }}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef>Description</th>
+                  <td mat-cell *matCellDef="let secret">
+                    <span>{{ secret.description }}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="expiration">
+                  <th mat-header-cell *matHeaderCellDef>Expiration date</th>
+                  <td mat-cell *matCellDef="let secret">
+                    <span>{{ secret.expiration | date : "dd-MM-yyyy" }}</span>
+                  </td>
+                </ng-container>
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="
+                    ['type', 'secretvalue', 'description', 'expiration'];
+                    sticky: true
+                  "
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="
+                    let row;
+                    columns: [
+                      'type',
+                      'secretvalue',
+                      'description',
+                      'expiration'
+                    ]
+                  "
+                ></tr>
+              </table>
+            </mat-tab>
+            <mat-tab label="Grant types">
+              <!-- <grant-types [grantTypes]="client?.allowedGrantTypes"></grant-types> -->
+              <mat-chip-set>
+                <mat-chip>client-credentials</mat-chip>
+                <mat-chip>implicit</mat-chip>
+              </mat-chip-set>
+            </mat-tab>
+            <mat-tab label="Allowed scopes">
+              <!-- <client-scopes [scopes]="client?.allowedScopes"></client-scopes> -->
+              <mat-chip-set>
+                <mat-chip>api1</mat-chip>
+                <mat-chip>api2</mat-chip>
+              </mat-chip-set>
+            </mat-tab>
+            <mat-tab label="Claims">
+              <!-- <claims [claims]="client?.claims"></claims> -->
+              <table mat-table [dataSource]="claims" class="mat-elevation-z8">
+                <ng-container matColumnDef="claimtype">
+                  <th mat-header-cell *matHeaderCellDef>Type</th>
+                  <td mat-cell *matCellDef="let claim">
+                    <span>{{ claim.type }}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="claimvalue">
+                  <th mat-header-cell *matHeaderCellDef>Value</th>
+                  <td mat-cell *matCellDef="let claim">
+                    <span>{{ claim.value }}</span>
+                  </td>
+                </ng-container>
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="['claimtype', 'claimvalue']; sticky: true"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: ['claimtype', 'claimvalue']"
+                ></tr>
+              </table>
+            </mat-tab>
+            <mat-tab label="Allowed cors origins">
+              <!-- <cors-origins [origins]="client?.allowedCorsOrigins"></cors-origins> -->
+              <table mat-table [dataSource]="origins" class="mat-elevation-z8">
+                <ng-container matColumnDef="origin">
+                  <th mat-header-cell *matHeaderCellDef>Cors origin</th>
+                  <td mat-cell *matCellDef="let origin">
+                    <span>{{ origin.origin }}</span>
+                  </td>
+                </ng-container>
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="['origin']; sticky: true"
+                ></tr>
+                <tr mat-row *matRowDef="let row; columns: ['origin']"></tr>
+              </table>
+            </mat-tab>
+            <mat-tab label="Post logout redirect uris">
+              <!-- <post-logout-redirect-uris
+              [uris]="client?.postLogoutRedirectUris"
+            ></post-logout-redirect-uris> -->
+              <diV class="clients-props-container">
+                <table mat-table [dataSource]="puris" class="mat-elevation-z8">
+                  <ng-container matColumnDef="redirectUri">
+                    <th mat-header-cell *matHeaderCellDef>Uris</th>
+                    <td mat-cell *matCellDef="let uri">
+                      <span>{{ uri.postLogoutRedirectUri }}</span>
+                    </td>
+                  </ng-container>
+                  <tr
+                    mat-header-row
+                    *matHeaderRowDef="['redirectUri']; sticky: true"
+                  ></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: ['redirectUri']"
+                  ></tr>
+                </table>
+              </diV>
+            </mat-tab>
+            <mat-tab label="IDP restrictions">
+              <!-- <idp-restrictions
+              [restrictions]="client?.identityProviderRestrictions"
+            ></idp-restrictions> -->
+              <mat-chip-set>
+                <mat-chip>facebook</mat-chip>
+                <mat-chip>google</mat-chip>
+              </mat-chip-set>
+            </mat-tab>
+            <mat-tab label="Properties">
+              <!-- <client-properties
+              [properties]="client?.properties"
+            ></client-properties> -->
+              <table
+                mat-table
+                [dataSource]="properties"
+                class="mat-elevation-z8"
+              >
+                <ng-container matColumnDef="key">
+                  <th mat-header-cell *matHeaderCellDef>Key</th>
+                  <td mat-cell *matCellDef="let prop">
+                    <span>{{ prop.key }}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="value">
+                  <th mat-header-cell *matHeaderCellDef>Value</th>
+                  <td mat-cell *matCellDef="let prop">
+                    <span>{{ prop.value }}</span>
+                  </td>
+                </ng-container>
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="['key', 'value']; sticky: true"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: ['key', 'value']"
+                ></tr>
+              </table>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

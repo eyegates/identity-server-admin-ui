@@ -1,0 +1,718 @@
+<div class="clients-container">
+  <div class="container-fluid">
+    <mat-toolbar>
+      <div class="col-3">
+        <h2>Nouveau client</h2>
+      </div>
+    </mat-toolbar>
+  </div>
+  <div class="container-fluid">
+    <mat-card>
+      <mat-card-content>
+        <mat-horizontal-stepper [linear] #stepper>
+          <mat-step>
+            <form>
+              <ng-template matStepLabel>Propriétés</ng-template>
+              <div class="container paddingTop20">
+                <div class="row">
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Client id</mat-label>
+                    <input
+                      matInput
+                      placeholder="Client id"
+                      formControlName="clientId"
+                      required
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Client name</mat-label>
+                    <input
+                      matInput
+                      formControlName="clientName"
+                      placeholder="Client name"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-2" appearance="outline">
+                    <mat-label>Protocol type</mat-label>
+                    <mat-select
+                      placeholder="Protocol type"
+                      formControlName="protocolType"
+                      name="Protocol type"
+                    >
+                      <mat-option value="oidc">OpenIdConnect</mat-option>
+                      <mat-option value="wsfed">WsFederation</mat-option>
+                      <mat-option value="saml2p">Saml2p</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="col inline">
+                    <mat-slide-toggle
+                      color="primary"
+                      color="primary"
+                      formControlName="enabled"
+                      >Enabled</mat-slide-toggle
+                    >
+                  </div>
+                </div>
+                <div class="row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <textarea
+                      matInput
+                      formControlName="description"
+                      placeholder="Description"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Client uri</mat-label>
+                    <input
+                      matInput
+                      formControlName="clientUri"
+                      placeholder="Client uri"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Logo uri</mat-label>
+                    <input
+                      matInput
+                      formControlName="logoUri"
+                      placeholder="Logo uri"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Front Channel Logout Uri</mat-label>
+                    <input
+                      matInput
+                      formControlName="frontChannelLogoutUri"
+                      placeholder="front Channel Logout Uri"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Back Channel Logout Uri</mat-label>
+                    <input
+                      matInput
+                      formControlName="backChannelLogoutUri"
+                      placeholder="Back Channel Logout Uri"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Client Claims Prefix</mat-label>
+                    <input
+                      matInput
+                      formControlName="clientClaimsPrefix"
+                      placeholder="Client Claims Prefix"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Identity Token Lifetime (seconds)</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="identityTokenLifetime"
+                      placeholder="identity Token Lifetime (seconds)"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Access Token Lifetime (seconds)</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="accessTokenLifetime"
+                      placeholder="Access Token Lifetime (seconds)"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Authorization Code Lifetime (seconds)</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="authorizationCodeLifetime"
+                      placeholder="authorization Code Lifetime (seconds)"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Consent Lifetime (seconds)</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="consentLifetime"
+                      placeholder="Consent Lifetime (seconds)"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label
+                      >Absolute Refresh Token Lifetime (seconds)</mat-label
+                    >
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="absoluteRefreshTokenLifetime"
+                      placeholder="Absolute Refresh Token Lifetime (seconds)"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label
+                      >Sliding Refresh Token Lifetime (seconds)</mat-label
+                    >
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="slidingRefreshTokenLifetime"
+                      placeholder="Sliding Refresh Token Lifetime (seconds)"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Refresh Token Usage</mat-label>
+                    <mat-select
+                      placeholder="Refresh Token Usage"
+                      formControlName="refreshTokenUsage"
+                      name="Refresh Token Usage"
+                    >
+                      <mat-option value="1">OneTimeOnly</mat-option>
+                      <mat-option value="0">ReUse</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Refresh Token expiration</mat-label>
+                    <mat-select
+                      placeholder="Refresh Token expiration"
+                      formControlName="refreshTokenExpiration"
+                      name="Refresh Token expiration"
+                    >
+                      <mat-option value="1">Absolute</mat-option>
+                      <mat-option value="0">Sliding</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Access Token type</mat-label>
+                    <mat-select
+                      placeholder="Access Token type"
+                      formControlName="accessTokenType"
+                      name="Access Token type"
+                    >
+                      <mat-option value="1">Reference</mat-option>
+                      <mat-option value="0">Jwt</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col-4" appearance="outline">
+                    <mat-label>Pair Wise Subject Salt</mat-label>
+                    <input
+                      matInput
+                      formControlName="pairWiseSubjectSalt"
+                      placeholder="Pair Wise Subject Salt"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-12">
+                <button
+                  type="button"
+                  color="primary"
+                  mat-raised-button
+                  matStepperNext
+                >
+                  Next
+                </button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step>
+            <form>
+              <ng-template matStepLabel>Capabilities</ng-template>
+              <div class="col-12 paddingTop20">
+                <mat-chip-listbox multiple class="mat-mdc-chip-set">
+                  <mat-chip-option selected>Require secret</mat-chip-option>
+                  <mat-chip-option>Require consent</mat-chip-option>
+                  <mat-chip-option>Allow remember consent</mat-chip-option>
+                  <mat-chip-option selected
+                    >Always include user claims in idToken</mat-chip-option
+                  >
+                  <mat-chip-option>Require Pkce</mat-chip-option>
+                  <mat-chip-option>Allow Plain Text Pkce</mat-chip-option>
+                  <mat-chip-option
+                    >Allow AccessTokens Via Browser</mat-chip-option
+                  >
+                  <mat-chip-option
+                    >Front Channel Logout Session Required</mat-chip-option
+                  >
+                  <mat-chip-option
+                    >Back Channel Logout Session Required</mat-chip-option
+                  >
+                  <mat-chip-option>Allow Offline Access</mat-chip-option>
+                  <mat-chip-option
+                    >Update AccessToken Claims On Refresh</mat-chip-option
+                  >
+                  <mat-chip-option>Enable Local Login</mat-chip-option>
+                  <mat-chip-option>Include Jwt Id</mat-chip-option>
+                  <mat-chip-option>Always Send Client Claims</mat-chip-option>
+                </mat-chip-listbox>
+              </div>
+              <div class="col-12 paddingTop20">
+                <div class="col-1 inline">
+                  <button
+                    type="button"
+                    color="primary"
+                    mat-raised-button
+                    matStepperPrevious
+                  >
+                    Back
+                  </button>
+                </div>
+                <div class="col-1 inline">
+                  <button
+                    type="button"
+                    color="primary"
+                    mat-raised-button
+                    matStepperNext
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step>
+            <ng-template matStepLabel>Auth configuration</ng-template>
+            <div class="col-12 paddingTop20">
+              <div class="col-12 inline v-aligntop">
+                <!-- to move to it's own component -->
+                <div class="col-12 text-center">
+                  <button mat-raised-button color="primary">
+                    Ajouter un secret
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="wrapper">
+                  @if(true){
+                  <table>
+                    <tr>
+                      <th></th>
+                      <th>Type</th>
+                      <th>Secret</th>
+                      <th>Expiration</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>secret.type</td>
+                      <td>secret.value</td>
+                      <td>secret.expiration</td>
+                      <td>secret.description</td>
+                    </tr>
+                  </table>
+                  }
+                  <!-- @if(false){
+                  <div class="text-center empty">
+                    <div class="alert alert-danger" role="alert">
+                      <p>
+                        <mat-icon color="warn">warning</mat-icon>
+                        <br />
+                        Attention vous n'avez ajouté aucun secret or votre
+                        client exige un secret. <br />
+                        Ajoutez en un en cliquant sur "Ajouter un secret"
+                      </p>
+                    </div>
+                  </div>
+                  } -->
+                </div>
+              </div>
+              <div class="col-4 inline v-aligntop">
+                <!-- <create-grant-type
+                  (gtSelectionChange)="onGtSelectionChange($event)"
+                ></create-grant-type> -->
+                <div class="col-12 text-center">
+                  <button mat-raised-button color="primary">
+                    Sélectionner les grant types
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="wrapper" style="padding: 10px">
+                  <div class="chips">
+                    <mat-chip-listbox #chipList>
+                      <mat-chip-option [selectable]="false" [removable]="true">
+                        client credentials
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                      </mat-chip-option>
+                      <mat-chip-option [selectable]="false" [removable]="true">
+                        implicit
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                      </mat-chip-option>
+                    </mat-chip-listbox>
+                  </div>
+                  <!-- <div class="text-center empty">
+                    <div class="alert alert-warning" role="alert">
+                      <p>
+                        <mat-icon color="warn">warning</mat-icon><br />
+                        Attention vous n'avez sélectionné aucun grant type.
+                        Votre client ne sera pas fonctionnel.<br />
+                        Ajoutez en un en cliquant sur "Sélectionner les grant
+                        types"
+                      </p>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-4 inline v-aligntop">
+                <!-- <create-scope
+                  (scopeChanged)="onScopeChange($event)"
+                ></create-scope> -->
+                <div class="col-12 text-center">
+                  <button mat-raised-button color="primary">
+                    Ajouter les scopes
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="wrapper" style="padding: 10px; text-align: center">
+                  <div class="chips">
+                    <mat-chip-listbox #chipList>
+                      <mat-chip-option [selectable]="false" [removable]="true">
+                        api1
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                      </mat-chip-option>
+                      <mat-chip-option [selectable]="false" [removable]="true">
+                        api2
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                      </mat-chip-option>
+                    </mat-chip-listbox>
+                  </div>
+
+                  <!-- <div *ngIf="!hasScopes" class="text-center empty">
+                    <div class="alert alert-warning" role="alert">
+                      <p>
+                        <mat-icon color="warn">warning</mat-icon>
+                        <br />
+                        Attention aucun scope n'a été ajouté. Votre client ne
+                        pourra pas accéder aux ressources.<br />
+                        Ajoutez en un en cliquant sur "Ajouter les scopes"
+                      </p>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-4 inline v-aligntop">
+                <!-- <create-restriction
+                  (idpRestrictionChanged)="onIdpRestrictionChange($event)"
+                ></create-restriction> -->
+                <div class="col-12 text-center">
+                  <button mat-raised-button color="primary">
+                    Ajouter les restrictions
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="wrapper" style="padding: 10px; text-align: center">
+                  <div class="chips">
+                    <mat-chip-listbox #chipList>
+                      <mat-chip-option [selectable]="false" [removable]="true">
+                        facebook
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                      </mat-chip-option>
+                      <mat-chip-option [selectable]="false" [removable]="true">
+                        google
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                      </mat-chip-option>
+                    </mat-chip-listbox>
+                  </div>
+                  <!-- <div *ngIf="!hasRestriction" class="text-center empty">
+                    <div class="alert alert-warning" role="alert">
+                      <p>
+                        Aucune restriction. Ajoutez en une en cliquant sur
+                        "Ajouter les restrictions"
+                      </p>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-6 inline v-aligntop">
+                <!-- <create-claim
+                  (claimsChanged)="onclaimsChanged($event)"
+                ></create-claim> -->
+                <div class="col-12 text-center">
+                  <button mat-raised-button color="primary">
+                    Ajouter les claims
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="wrapper" style="padding: 10px">
+                  <table>
+                    <tr>
+                      <th></th>
+                      <th>Claim type</th>
+                      <th>Claim value</th>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>name</td>
+                      <td></td>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>app</td>
+                      <td>full digital</td>
+                    </tr>
+                  </table>
+
+                  <!-- <div *ngIf="!hasClaims" class="text-center empty">
+                    <div class="alert alert-warning" role="alert">
+                      <p>
+                        Aucun claim. Ajoutez en un en cliquant sur "Ajouter les
+                        claims"
+                      </p>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-6 inline v-aligntop">
+                <!-- <create-property
+                  (propertiesChanged)="onPropertiesChanged($event)"
+                ></create-property> -->
+                <div class="col-12 text-center">
+                  <button mat-raised-button color="primary">
+                    Ajouter les propriétés
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="wrapper" style="padding: 10px">
+                  <table>
+                    <tr>
+                      <th></th>
+                      <th>Property key</th>
+                      <th>Property value</th>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>key</td>
+                      <td>value</td>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>key1</td>
+                      <td>value1</td>
+                    </tr>
+                  </table>
+
+                  <!-- <div *ngIf="!hasProperties" class="text-center empty">
+                    <div class="alert alert-warning" role="alert">
+                      <p>
+                        Aucune propriété. Ajoutez en une en cliquant sur
+                        "Ajouter les propriétés"
+                      </p>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-12 paddingTop20">
+              <div class="col-1 inline">
+                <button
+                  type="button"
+                  color="primary"
+                  mat-raised-button
+                  matStepperPrevious
+                >
+                  Back
+                </button>
+              </div>
+              <div class="col-1 inline">
+                <button
+                  type="button"
+                  color="primary"
+                  mat-raised-button
+                  matStepperNext
+                >
+                  Next
+                </button>
+              </div>
+              <div class="col-4 inline">
+                <button type="button" color="primary" mat-raised-button>
+                  Create client
+                </button>
+              </div>
+            </div>
+          </mat-step>
+
+          <mat-step>
+            <ng-template matStepLabel>Uris configuration</ng-template>
+            <div class="col-12 paddingTop20">
+              <div class="col-6 inline v-aligntop">
+                <!-- <create-redirect-uris
+                  (uriChanged)="onUriChanged($event)"
+                ></create-redirect-uris> -->
+                <div class="col-12 text-center">
+                  <button mat-raised-button color="primary">
+                    Ajouter les redirect uris
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="wrapper" style="padding: 10px">
+                  <table>
+                    <tr>
+                      <th></th>
+                      <th>Uris</th>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>http://uri1.com</td>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>http://uri2.com</td>
+                    </tr>
+                  </table>
+
+                  <!-- <div *ngIf="!hasredirectUris" class="text-center empty">
+                    <div class="alert alert-warning" role="alert">
+                      <p>
+                        <mat-icon color="warn">warning</mat-icon>
+                        <br />
+                        Attention aucune callback n'a été ajoutée, or le grant
+                        type sélectionné nécessite une url de callback. <br />
+                        Ajoutez en un en cliquant sur "Ajouter les redirect
+                        uris"
+                      </p>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-6 inline v-aligntop">
+                <!-- <create-cors-origins
+                  (corsChanged)="onCorsChanged($event)"
+                ></create-cors-origins> -->
+                <div class="col-12 text-center">
+                  <button mat-raised-button color="primary">
+                    Ajouter les Cors origins
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="wrapper" style="padding: 10px">
+                  <table>
+                    <tr>
+                      <th></th>
+                      <th>Origins</th>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>http://origin1.com</td>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>http://origin2.com</td>
+                    </tr>
+                  </table>
+                  <!-- <div *ngIf="!hasOrigins" class="text-center empty">
+                    <div class="alert alert-warning" role="alert">
+                      <p>
+                        <mat-icon color="warn">warning</mat-icon>
+                        <br />
+                        Attention ne pas configurer les CORS origins peut
+                        invalider le client si celui-ci représente une SPA.
+                        <br />
+                        Configurer les en cliquant sur "Ajouter les Cors
+                        origins"
+                      </p>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-6 offset-md-3 v-aligntop">
+                <!-- <create-post-logout-redirect-uris
+                  (plUriChanged)="OnPlUriChanged($event)"
+                ></create-post-logout-redirect-uris> -->
+                <div class="col-12 text-center">
+                  <button mat-raised-button color="primary">
+                    Ajouter les post logout redirect uris
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div class="wrapper" style="padding: 10px">
+                  <table>
+                    <tr>
+                      <th></th>
+                      <th>Uris</th>
+                    </tr>
+                    <tr class="separator">
+                      <td>
+                        <button mat-icon-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>http://postLogoutRedirectUri.com</td>
+                    </tr>
+                  </table>
+                  <!-- <div *ngIf="!hasredirectUris" class="text-center empty">
+                    <div class="alert alert-warning" role="alert">
+                      <p>
+                        <mat-icon color="warn">warning</mat-icon>
+                        <br />
+                        Attention aucune callback n'a été ajoutée, or le grant
+                        type sélectionné nécessite une url de callback. <br />
+                        Ajoutez en un en cliquant sur "Ajouter les post logout
+                        redirect uris"
+                      </p>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-12 paddingTop20">
+              <div class="col-1 inline">
+                <button color="primary" mat-raised-button matStepperPrevious>
+                  Back
+                </button>
+              </div>
+              <div class="col-4 inline">
+                <button color="primary" mat-raised-button>Create client</button>
+              </div>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

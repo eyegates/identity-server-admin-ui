@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <ids-header></ids-header>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <mat-sidenav-container class="example-container">
+        <mat-sidenav
+          #sidenav
+          mode="side"
+          opened
+          class="col-2"
+          role="navigation"
+          [fixedInViewport]="true"
+          [fixedTopGap]="64"
+        >
+          <ids-menu></ids-menu>
+        </mat-sidenav>
+        <mat-sidenav-content role="main">
+          <router-outlet></router-outlet>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+    </div>
+  </div>
+</div>
