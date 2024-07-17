@@ -50,30 +50,35 @@
         </table>
         <div class="paddingTop20">
           <div class="row">
-            <mat-chip-listbox class="mat-mdc-chip-set">
-              <mat-chip-option selected>Require secret</mat-chip-option>
-              <mat-chip-option>Require consent</mat-chip-option>
-              <mat-chip-option>Allow remember consent</mat-chip-option>
-              <mat-chip-option selected
-                >Always include user claims in idToken</mat-chip-option
+            <mat-chip-set role="list" class="mat-mdc-chip-set">
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon> Require secret</mat-chip
               >
-              <mat-chip-option>Require Pkce</mat-chip-option>
-              <mat-chip-option>Allow Plain Text Pkce</mat-chip-option>
-              <mat-chip-option>Allow AccessTokens Via Browser</mat-chip-option>
-              <mat-chip-option
-                >Front Channel Logout Session Required</mat-chip-option
+              <mat-chip role="listitem">Require consent</mat-chip>
+              <mat-chip role="listitem">Allow remember consent</mat-chip>
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon>Always include user claims in
+                idToken</mat-chip
               >
-              <mat-chip-option
-                >Back Channel Logout Session Required</mat-chip-option
+              <mat-chip role="listitem">Require Pkce</mat-chip>
+              <mat-chip role="listitem">Allow Plain Text Pkce</mat-chip>
+              <mat-chip role="listitem"
+                >Allow AccessTokens Via Browser</mat-chip
               >
-              <mat-chip-option>Allow Offline Access</mat-chip-option>
-              <mat-chip-option
-                >Update AccessToken Claims On Refresh</mat-chip-option
+              <mat-chip role="listitem"
+                >Front Channel Logout Session Required</mat-chip
               >
-              <mat-chip-option>Enable Local Login</mat-chip-option>
-              <mat-chip-option>Include Jwt Id</mat-chip-option>
-              <mat-chip-option>Always Send Client Claims</mat-chip-option>
-            </mat-chip-listbox>
+              <mat-chip role="listitem"
+                >Back Channel Logout Session Required</mat-chip
+              >
+              <mat-chip role="listitem">Allow Offline Access</mat-chip>
+              <mat-chip role="listitem"
+                >Update AccessToken Claims On Refresh</mat-chip
+              >
+              <mat-chip role="listitem">Enable Local Login</mat-chip>
+              <mat-chip role="listitem">Include Jwt Id</mat-chip>
+              <mat-chip role="listitem">Always Send Client Claims</mat-chip>
+            </mat-chip-set>
           </div>
         </div>
         <div class="paddingTop20">

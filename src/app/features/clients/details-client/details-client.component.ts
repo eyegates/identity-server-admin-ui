@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +27,7 @@ import { RouterModule } from '@angular/router';
     MatChipsModule,
     MatButtonModule,
     MatListModule,
+    MatIconModule,
   ],
   templateUrl: './details-client.component.html',
   styleUrl: './details-client.component.sass',
