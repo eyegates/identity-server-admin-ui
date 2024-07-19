@@ -1,63 +1,39 @@
-import { TestBed } from '@angular/core/testing';
-import { reducers, selectAllClients, type AppState } from '..';
-import { provideStore, Store } from '@ngrx/store';
-import {
-  loadClients,
-  loadClientsEffect,
-} from '../usecases/load-clients.usecase';
-import { clientsGateway } from '../infra/fake-clients.gateway';
-import { CLIENTSGATEWAY } from '../models/clients.gateway';
-import { provideEffects } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { createCientsFixture, type ClientFixture } from './client.fixture';
 
 let store: Store;
 describe('Load clients list use case', () => {
-  const initialState: Partial<AppState> = {
-    clients: { ids: [], entities: {}, selectedClientId: null },
-  };
+  let clientsFixture: ClientFixture;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [],
-      providers: [
-        provideStore(reducers, { initialState }),
-        provideEffects({ loadClientsEffect }),
-        {
-          provide: CLIENTSGATEWAY,
-          useValue: clientsGateway,
-        },
-      ],
-    });
-
-    store = TestBed.inject(Store);
+    clientsFixture = createCientsFixture();
   });
 
   it('should load clients list', async () => {
-    givenExistingClients([
-      { id: '1', clientId: 'client1' },
-      { id: '2', clientId: 'client2' },
+    clientsFixture.givenExistingClients([
+      { id: 1, clientId: 'client1', protocolType: 'oidc' },
+      { id: 2, clientId: 'client2', protocolType: 'oidc' },
     ]);
 
-    await whenRetrievingClientList();
+    clientsFixture.whenRetrievingClientList();
 
-    thenReceivedClientListShoudBe([
-      { id: '1', clientId: 'client1' },
-      { id: '2', clientId: 'client2' },
+    clientsFixture.thenReceivedClientListShoudBe([
+      { id: 1, clientId: 'client1', protocolType: 'oidc' },
+      { id: 2, clientId: 'client2', protocolType: 'oidc' },
     ]);
   });
 });
 
-function thenReceivedClientListShoudBe(
-  clientList: { id: string; clientId: string }[]
-) {
-  store.select(selectAllClients).subscribe((clients) => {
-    expect(clients).toEqual(clientList);
-  });
-}
+// function thenReceivedClientListShoudBe(clientList: Client[]) {
+//   store.select(selectAllClients).subscribe((clients) => {
+//     expect(clients).toEqual(clientList);
+//   });
+// }
 
-function whenRetrievingClientList() {
-  store.dispatch(loadClients());
-}
+// function whenRetrievingClientList() {
+//   store.dispatch(loadClients());
+// }
 
-function givenExistingClients(clientList: { id: string; clientId: string }[]) {
-  clientsGateway.clients = clientList;
-}
+// function givenExistingClients(clientList: Client[]) {
+//   clientsGateway.clients = clientList;
+// }

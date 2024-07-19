@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import type { Client } from '../models/client.model';
 
 export enum ClientsActionTypes {
   // ClientsAction = '[Clients] Action',
@@ -26,7 +27,7 @@ export const LoadClients = createAction(ClientsActionTypes.LoadClients);
 
 export const ClientsLoaded = createAction(
   ClientsActionTypes.ClientsLoaded,
-  props<{ payload: { id: string; clientId: string }[] }>()
+  props<{ payload: Client[] }>()
 );
 
 export const ClientsLoadFailure = createAction(

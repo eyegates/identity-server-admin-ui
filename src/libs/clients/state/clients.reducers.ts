@@ -1,30 +1,21 @@
-import {
-  createEntityAdapter,
-  type EntityAdapter,
-  type EntityState,
-} from '@ngrx/entity';
+import { type EntityState } from '@ngrx/entity';
 
 import * as ClientActions from './client.actions';
 import { createReducer, on } from '@ngrx/store';
+import { clientsAdapter, type Client } from '../models/client.model';
 
-export interface ClientsState
-  extends EntityState<{ id: string; clientId: string }> {
+export interface ClientsState extends EntityState<Client> {
   selectedClientId: string | null;
 }
 
-export const adapter: EntityAdapter<{ id: string; clientId: string }> =
-  createEntityAdapter<{
-    id: string;
-    clientId: string;
-  }>();
-export const initialState: ClientsState = adapter.getInitialState({
+export const initialState: ClientsState = clientsAdapter.getInitialState({
   selectedClientId: null,
 });
 
 export const clientsReducer = createReducer(
   initialState,
   on(ClientActions.ClientsLoaded, (state, action) =>
-    adapter.addMany(action.payload, state)
+    clientsAdapter.addMany(action.payload, state)
   )
 );
 
@@ -33,7 +24,7 @@ export const getSelectedClientId = (state: ClientsState) =>
 
 // get the selectors
 const { selectIds, selectEntities, selectAll, selectTotal } =
-  adapter.getSelectors();
+  clientsAdapter.getSelectors();
 
 // select the array of Client ids
 export const selectClientIds = selectIds;
