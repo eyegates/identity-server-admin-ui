@@ -24,7 +24,11 @@
     "verbatimModuleSyntax": true,
     "module": "ES2022",
     "lib": ["ES2022", "dom", "dom.iterable"],
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/libs/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

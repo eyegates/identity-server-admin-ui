@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DetailsClientComponent } from './details-client.component';
+import { provideRouter } from '@angular/router';
+import { routes } from '../clients.routes';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('DetailsClientComponent', () => {
   let component: DetailsClientComponent;
@@ -8,9 +11,9 @@ describe('DetailsClientComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DetailsClientComponent]
-    })
-    .compileComponents();
+      imports: [DetailsClientComponent],
+      providers: [provideRouter(routes), provideAnimations()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DetailsClientComponent);
     component = fixture.componentInstance;

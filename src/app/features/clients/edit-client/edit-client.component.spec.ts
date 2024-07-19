@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditClientComponent } from './edit-client.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('EditClientComponent', () => {
   let component: EditClientComponent;
@@ -8,9 +9,9 @@ describe('EditClientComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditClientComponent]
-    })
-    .compileComponents();
+      imports: [EditClientComponent],
+      providers: [provideAnimations()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EditClientComponent);
     component = fixture.componentInstance;
