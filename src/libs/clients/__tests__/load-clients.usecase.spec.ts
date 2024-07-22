@@ -11,29 +11,35 @@ describe('Load clients list use case', () => {
 
   it('should load clients list', async () => {
     clientsFixture.givenExistingClients([
-      { id: 1, clientId: 'client1', protocolType: 'oidc' },
-      { id: 2, clientId: 'client2', protocolType: 'oidc' },
+      {
+        id: 1,
+        clientId: 'client1',
+        protocolType: 'oidc',
+        allowedGrantTypes: [{ id: 1, grantType: 'client-credentials' }],
+      },
+      {
+        id: 2,
+        clientId: 'client2',
+        protocolType: 'oidc',
+        allowedGrantTypes: [{ id: 1, grantType: 'client-credentials' }],
+      },
     ]);
 
     clientsFixture.whenRetrievingClientList();
 
     clientsFixture.thenReceivedClientListShoudBe([
-      { id: 1, clientId: 'client1', protocolType: 'oidc' },
-      { id: 2, clientId: 'client2', protocolType: 'oidc' },
+      {
+        id: 1,
+        clientId: 'client1',
+        protocolType: 'oidc',
+        allowedGrantTypes: [{ id: 1, grantType: 'client-credentials' }],
+      },
+      {
+        id: 2,
+        clientId: 'client2',
+        protocolType: 'oidc',
+        allowedGrantTypes: [{ id: 1, grantType: 'client-credentials' }],
+      },
     ]);
   });
 });
-
-// function thenReceivedClientListShoudBe(clientList: Client[]) {
-//   store.select(selectAllClients).subscribe((clients) => {
-//     expect(clients).toEqual(clientList);
-//   });
-// }
-
-// function whenRetrievingClientList() {
-//   store.dispatch(loadClients());
-// }
-
-// function givenExistingClients(clientList: Client[]) {
-//   clientsGateway.clients = clientList;
-// }

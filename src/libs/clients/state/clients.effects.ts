@@ -6,10 +6,7 @@ import {
   ClientsLoadFailure,
 } from '../state/client.actions';
 import { catchError, exhaustMap, map, of } from 'rxjs';
-import { createAction } from '@ngrx/store';
-import { CLIENTSGATEWAY } from '../models/clients.gateway';
-
-export const loadClients = createAction(ClientsActionTypes.LoadClients);
+import { CLIENTSGATEWAY } from '../models/tokens';
 
 export const loadClientsEffect = createEffect(
   (actions$ = inject(Actions), clientsGateway = inject(CLIENTSGATEWAY)) => {

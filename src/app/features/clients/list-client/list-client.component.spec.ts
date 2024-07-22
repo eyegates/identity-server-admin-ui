@@ -4,6 +4,7 @@ import { ListClientComponent } from './list-client.component';
 import { provideRouter } from '@angular/router';
 import { routes } from 'src/app/app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { createStore } from '@/libs';
 
 describe('ListClientComponent', () => {
   let component: ListClientComponent;
@@ -12,7 +13,11 @@ describe('ListClientComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ListClientComponent],
-      providers: [provideRouter(routes), provideAnimations()],
+      providers: [
+        provideRouter(routes),
+        provideAnimations(),
+        createStore().providers,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ListClientComponent);

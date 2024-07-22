@@ -1,32 +1,37 @@
 import { Store } from '@ngrx/store';
-import { createStore, selectAllClients } from '..';
-import { FakeClientsGateway } from '../infra/fake-clients.gateway';
-import type { Client } from '../models/client.model';
-import { loadClients } from '../usecases/load-clients.usecase';
+
+import type { Client } from '@/libs/clients/models/client.model';
 import { TestBed } from '@angular/core/testing';
-import { CLIENTSGATEWAY } from '../models/clients.gateway';
+import { FakeClientsGateway } from '@/libs/clients/infra/fake-clients.gateway';
+import { CLIENTSGATEWAY } from '@/libs/clients/models/tokens';
+import { ClientsFacade } from '@/libs/clients/state/clients.facade';
+import { createTestStore } from '@/libs/common/create-test-store';
+import { selectAllClients } from '..';
 
 export const createCientsFixture = () => {
   const clientsGateway = new FakeClientsGateway();
   let store: Store;
+  let clientsFacade: ClientsFacade;
   return {
     givenExistingClients(clientList: Client[]) {
       clientsGateway.clients = clientList;
     },
     whenRetrievingClientList() {
-      const storeConfig = createStore([
-        {
-          provide: CLIENTSGATEWAY,
-          useValue: clientsGateway,
-        },
-      ]);
+      const storeConfig = createTestStore();
 
       TestBed.configureTestingModule({
         imports: [],
-        providers: [...storeConfig.providers],
+        providers: [
+          ...storeConfig.providers,
+          {
+            provide: CLIENTSGATEWAY,
+            useValue: clientsGateway,
+          },
+        ],
       });
       store = TestBed.inject(Store);
-      store.dispatch(loadClients());
+      clientsFacade = TestBed.inject(ClientsFacade);
+      clientsFacade.loadClients();
     },
     thenReceivedClientListShoudBe(clientList: Client[]) {
       store.select(selectAllClients).subscribe((clients) => {

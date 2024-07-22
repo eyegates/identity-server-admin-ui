@@ -47,8 +47,11 @@
       <ng-container matColumnDef="GrantType">
         <th mat-header-cell *matHeaderCellDef>Grant types</th>
         <td mat-cell *matCellDef="let client">
-          <!-- <span *ngFor="let gt of client.allowedGrantTypes">{{ gt.grantType }} </span> -->
-          <span>{{ client.GrantType }} </span>
+          <mat-chip-set aria-label="Allowed Grant types">
+            @for(gt of client.allowedGrantTypes; track gt.id;){
+            <mat-chip color="primary">{{ gt.grantType }}</mat-chip>
+            }
+          </mat-chip-set>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
