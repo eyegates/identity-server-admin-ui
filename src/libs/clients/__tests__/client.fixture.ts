@@ -5,8 +5,8 @@ import { TestBed } from '@angular/core/testing';
 import { FakeClientsGateway } from '@/libs/clients/infra/fake-clients.gateway';
 import { CLIENTSGATEWAY } from '@/libs/clients/models/tokens';
 import { ClientsFacade } from '@/libs/clients/state/clients.facade';
-import { createTestStore } from '@/libs/common/create-test-store';
 import { selectAllClients } from '..';
+import { createStore } from '@/libs';
 
 export const createCientsFixture = () => {
   const clientsGateway = new FakeClientsGateway();
@@ -17,16 +17,17 @@ export const createCientsFixture = () => {
       clientsGateway.clients = clientList;
     },
     whenRetrievingClientList() {
-      const storeConfig = createTestStore();
-
       TestBed.configureTestingModule({
         imports: [],
         providers: [
-          ...storeConfig.providers,
-          {
-            provide: CLIENTSGATEWAY,
-            useValue: clientsGateway,
-          },
+          createStore({
+            providers: [
+              {
+                provide: CLIENTSGATEWAY,
+                useValue: clientsGateway,
+              },
+            ],
+          }),
         ],
       });
       store = TestBed.inject(Store);
