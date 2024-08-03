@@ -1,5 +1,11 @@
+import {
+  type AppState,
+  type Client,
+  ClientsFacade,
+  selectCurrentClient,
+} from '@/libs';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -10,7 +16,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ids-details-client',
@@ -32,35 +40,20 @@ import { RouterModule } from '@angular/router';
   templateUrl: './details-client.component.html',
   styleUrl: './details-client.component.sass',
 })
-export class DetailsClientComponent {
-  uris: {
-    id: number;
-    redirectUri: string;
-  }[] = [];
+export class DetailsClientComponent implements OnInit {
+  client: Observable<Client> = new Observable<Client>();
 
-  secrets: {
-    id: number;
-    description: string;
-    value: string;
-    expiration: Date;
-    type: string;
-  }[] = [];
-  claims: {
-    id: number;
-    type: string;
-    value: string;
-  }[] = [];
-  origins: {
-    id: number;
-    origin: string;
-  }[] = [];
-  puris: {
-    id: number;
-    postLogoutRedirectUri: string;
-  }[] = [];
-  properties: {
-    id: number;
-    key: string;
-    value: string;
-  }[] = [];
+  constructor(
+    private store: Store<AppState>,
+    private route: ActivatedRoute,
+    private router: Router,
+    private clientsFacade: ClientsFacade
+  ) {}
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.client = this.store.pipe(select(selectCurrentClient));
+      this.clientsFacade.selectClient(params['clientId']);
+    });
+  }
 }

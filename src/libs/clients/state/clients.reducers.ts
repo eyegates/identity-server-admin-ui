@@ -5,18 +5,22 @@ import { createReducer, on } from '@ngrx/store';
 import { clientsAdapter, type Client } from '../models/client.model';
 
 export interface ClientsState extends EntityState<Client> {
-  selectedClientId: string | null;
+  selectedClientId: string;
 }
 
 export const initialState: ClientsState = clientsAdapter.getInitialState({
-  selectedClientId: null,
+  selectedClientId: 'null',
 });
 
 export const clientsReducer = createReducer(
   initialState,
   on(ClientActions.ClientsLoaded, (state, action) =>
     clientsAdapter.addMany(action.payload, state)
-  )
+  ),
+  on(ClientActions.SelectClient, (state: ClientsState, { payload }) => ({
+    ...state,
+    selectedClientId: payload,
+  }))
 );
 
 export const getSelectedClientId = (state: ClientsState) =>

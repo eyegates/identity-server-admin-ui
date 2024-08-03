@@ -48,6 +48,17 @@ export type Client = {
 };
 
 export type ProtocolType = 'oidc' | 'wsfed' | 'saml2p';
+export type SecretType =
+  | 'SharedSecret'
+  | 'X509Thumbprint'
+  | 'X509Name'
+  | 'X509CertificateBase64';
+export type AllowedGrantType =
+  | 'implicit'
+  | 'hybrid'
+  | 'authorization_code'
+  | 'client_credentials'
+  | 'password';
 
 export type ClientApiResponse = {
   totalCount: number;
@@ -59,12 +70,12 @@ export type ClientSecret = {
   description?: string;
   value: string;
   expiration?: Date;
-  type: string;
+  type: SecretType;
 };
 
 export type GrantType = {
   id: number;
-  grantType: string;
+  grantType: AllowedGrantType;
 };
 
 export type RedirectUri = {

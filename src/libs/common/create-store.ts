@@ -8,14 +8,19 @@ export type Dependencies = {
 };
 
 export const createStore = (
-  dependencies?: Dependencies,
-  initialState?: Partial<AppState>
+  config: {
+    dependencies?: Dependencies;
+    initialState?: Partial<AppState>;
+  } = {}
 ) => {
-  return dependencies
+  return config.dependencies
     ? [
-        provideStore(reducers, { initialState }),
+        provideStore(reducers, { initialState: config.initialState }),
         provideEffects(clientEffects),
-        dependencies.providers,
+        config.dependencies.providers,
       ]
-    : [provideStore(reducers, { initialState }), provideEffects(clientEffects)];
+    : [
+        provideStore(reducers, { initialState: config.initialState }),
+        provideEffects(clientEffects),
+      ];
 };

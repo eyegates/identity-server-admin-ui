@@ -3,33 +3,41 @@ import { Store } from '@ngrx/store';
 import type { Client } from '@/libs/clients/models/client.model';
 import { TestBed } from '@angular/core/testing';
 import { FakeClientsGateway } from '@/libs/clients/infra/fake-clients.gateway';
-import { CLIENTSGATEWAY } from '@/libs/clients/models/tokens';
 import { ClientsFacade } from '@/libs/clients/state/clients.facade';
-import { selectAllClients } from '..';
-import { createStore } from '@/libs';
+import { selectAllClients, selectCurrentClient, type AppState } from '..';
+import { CLIENTSGATEWAY } from '../models/tokens';
+import { createStore } from '@/libs/common';
 
 export const createCientsFixture = () => {
   const clientsGateway = new FakeClientsGateway();
   let store: Store;
   let clientsFacade: ClientsFacade;
   return {
-    givenExistingClients(clientList: Client[]) {
-      clientsGateway.clients = clientList;
-    },
-    whenRetrievingClientList() {
+    init(initialState?: Partial<AppState>) {
       TestBed.configureTestingModule({
         imports: [],
         providers: [
           createStore({
-            providers: [
-              {
-                provide: CLIENTSGATEWAY,
-                useValue: clientsGateway,
-              },
-            ],
+            initialState,
+            dependencies: {
+              providers: [
+                { provide: CLIENTSGATEWAY, useClass: FakeClientsGateway },
+              ],
+            },
           }),
         ],
       });
+    },
+    givenExistingRemoteClients(clientList: Client[]) {
+      clientsGateway.clients = clientList;
+      TestBed.overrideProvider(CLIENTSGATEWAY, { useValue: clientsGateway });
+    },
+    whenSelectClient(clientId: string) {
+      store = TestBed.inject(Store);
+      clientsFacade = TestBed.inject(ClientsFacade);
+      clientsFacade.selectClient(clientId);
+    },
+    whenRetrievingClientList() {
       store = TestBed.inject(Store);
       clientsFacade = TestBed.inject(ClientsFacade);
       clientsFacade.loadClients();
@@ -37,6 +45,12 @@ export const createCientsFixture = () => {
     thenReceivedClientListShoudBe(clientList: Client[]) {
       store.select(selectAllClients).subscribe((clients) => {
         expect(clients).toEqual(clientList);
+      });
+    },
+    thenReceivedClientDetailsShoudBe(clientDetails: Client) {
+      store = TestBed.inject(Store);
+      store.select(selectCurrentClient).subscribe((client) => {
+        expect(client).toEqual(clientDetails);
       });
     },
   };

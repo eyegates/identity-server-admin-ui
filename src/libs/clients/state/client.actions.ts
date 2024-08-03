@@ -5,6 +5,7 @@ export enum ClientsActionTypes {
   LoadClients = '[Clients] Load Data',
   ClientsLoaded = '[Clients] Data Loaded',
   ClientsLoadFailure = '[Clients] Data Load failure',
+  SelectClient = '[Client] Details',
 }
 
 export const LoadClients = createAction(ClientsActionTypes.LoadClients);
@@ -16,4 +17,9 @@ export const ClientsLoaded = createAction(
 
 export const ClientsLoadFailure = createAction(
   ClientsActionTypes.ClientsLoadFailure
+);
+
+export const SelectClient = createAction(
+  ClientsActionTypes.SelectClient,
+  props<{ payload: string }>()
 );

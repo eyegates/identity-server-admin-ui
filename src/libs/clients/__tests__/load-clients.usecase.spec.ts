@@ -1,7 +1,5 @@
-import { Store } from '@ngrx/store';
 import { createCientsFixture, type ClientFixture } from './client.fixture';
 
-let store: Store;
 describe('Load clients list use case', () => {
   let clientsFixture: ClientFixture;
 
@@ -10,18 +8,19 @@ describe('Load clients list use case', () => {
   });
 
   it('should load clients list', async () => {
-    clientsFixture.givenExistingClients([
+    clientsFixture.init();
+    clientsFixture.givenExistingRemoteClients([
       {
         id: 1,
         clientId: 'client1',
         protocolType: 'oidc',
-        allowedGrantTypes: [{ id: 1, grantType: 'client-credentials' }],
+        allowedGrantTypes: [{ id: 1, grantType: 'client_credentials' }],
       },
       {
         id: 2,
         clientId: 'client2',
         protocolType: 'oidc',
-        allowedGrantTypes: [{ id: 1, grantType: 'client-credentials' }],
+        allowedGrantTypes: [{ id: 1, grantType: 'client_credentials' }],
       },
     ]);
 
@@ -32,13 +31,13 @@ describe('Load clients list use case', () => {
         id: 1,
         clientId: 'client1',
         protocolType: 'oidc',
-        allowedGrantTypes: [{ id: 1, grantType: 'client-credentials' }],
+        allowedGrantTypes: [{ id: 1, grantType: 'client_credentials' }],
       },
       {
         id: 2,
         clientId: 'client2',
         protocolType: 'oidc',
-        allowedGrantTypes: [{ id: 1, grantType: 'client-credentials' }],
+        allowedGrantTypes: [{ id: 1, grantType: 'client_credentials' }],
       },
     ]);
   });

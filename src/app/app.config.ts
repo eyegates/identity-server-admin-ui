@@ -14,14 +14,16 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
-    provideStoreDevtools({ maxAge: 25 }),
     createStore({
-      providers: [
-        {
-          provide: CLIENTSGATEWAY,
-          useClass: HttpClientsGateway,
-        },
-      ],
+      dependencies: {
+        providers: [
+          {
+            provide: CLIENTSGATEWAY,
+            useClass: HttpClientsGateway,
+          },
+        ],
+      },
     }),
+    provideStoreDevtools({ maxAge: 25 }),
   ],
 };

@@ -15,7 +15,7 @@
     </mat-toolbar>
     <mat-toolbar>
       <div class="col-3">
-        <h2>Client : {{ "client1" | uppercase }}</h2>
+        <h2>Client : {{ (client | async)?.clientId | uppercase }}</h2>
       </div>
     </mat-toolbar>
   </div>
@@ -25,59 +25,93 @@
         <table>
           <tr>
             <td class="label">Client id :</td>
-            <td>client1</td>
+            <td>{{ (client | async)?.clientId }}</td>
           </tr>
           <tr>
             <td class="label">Client name :</td>
-            <td>clientName</td>
+            <td>{{ (client | async)?.clientName }}</td>
           </tr>
           <tr>
             <td class="label">Description :</td>
-            <td>description</td>
+            <td>{{ (client | async)?.description }}</td>
           </tr>
           <tr>
             <td class="label">Protocol Type :</td>
-            <td>protocolType</td>
+            <td>{{ (client | async)?.protocolType }}</td>
           </tr>
           <tr>
             <td class="label">Client uri :</td>
-            <td>clientUri</td>
+            <td>{{ (client | async)?.clientUri }}</td>
           </tr>
           <tr>
             <td class="label">Logo uri :</td>
-            <td>logoUri</td>
+            <td>{{ (client | async)?.logoUri }}</td>
           </tr>
         </table>
         <div class="paddingTop20">
           <div class="row">
             <mat-chip-set role="list" class="mat-mdc-chip-set">
+              @if((client | async)?.requireClientSecret){
               <mat-chip role="listitem"
                 ><mat-icon>done</mat-icon> Require secret</mat-chip
               >
-              <mat-chip role="listitem">Require consent</mat-chip>
-              <mat-chip role="listitem">Allow remember consent</mat-chip>
+              } @if((client | async)?.requireConsent){
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon>Require consent</mat-chip
+              >
+              } @if((client | async)?.allowRememberConsent){ }
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon>Allow remember consent</mat-chip
+              >@if((client | async)?.alwaysIncludeUserClaimsInIdToken){
               <mat-chip role="listitem"
                 ><mat-icon>done</mat-icon>Always include user claims in
                 idToken</mat-chip
               >
-              <mat-chip role="listitem">Require Pkce</mat-chip>
-              <mat-chip role="listitem">Allow Plain Text Pkce</mat-chip>
+              }@if((client | async)?.requirePkce){
               <mat-chip role="listitem"
-                >Allow AccessTokens Via Browser</mat-chip
+                ><mat-icon>done</mat-icon>Require Pkce</mat-chip
               >
+              }@if((client | async)?.allowPlainTextPkce){
               <mat-chip role="listitem"
-                >Front Channel Logout Session Required</mat-chip
+                ><mat-icon>done</mat-icon>Allow Plain Text Pkce</mat-chip
               >
+              }@if((client | async)?.allowAccessTokensViaBrowser){
               <mat-chip role="listitem"
-                >Back Channel Logout Session Required</mat-chip
+                ><mat-icon>done</mat-icon>Allow AccessTokens Via
+                Browser</mat-chip
               >
-              <mat-chip role="listitem">Allow Offline Access</mat-chip>
+              }@if((client | async)?.frontChannelLogoutSessionRequired){
               <mat-chip role="listitem"
-                >Update AccessToken Claims On Refresh</mat-chip
+                ><mat-icon>done</mat-icon>Front Channel Logout Session
+                Required</mat-chip
               >
-              <mat-chip role="listitem">Enable Local Login</mat-chip>
-              <mat-chip role="listitem">Include Jwt Id</mat-chip>
-              <mat-chip role="listitem">Always Send Client Claims</mat-chip>
+              }@if((client | async)?.backChannelLogoutSessionRequired){
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon>Back Channel Logout Session
+                Required</mat-chip
+              >
+              }@if((client | async)?.allowOfflineAccess){
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon>Allow Offline Access</mat-chip
+              >
+              }@if((client | async)?.updateAccessTokenClaimsOnRefresh){
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon>Update AccessToken Claims On
+                Refresh</mat-chip
+              >
+              }@if((client | async)?.enableLocalLogin){
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon>Enable Local Login</mat-chip
+              >
+              }@if((client | async)?.includeJwtId){
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon>Include Jwt Id</mat-chip
+              >
+              }@if((client | async)?.alwaysSendClientClaims){
+              <mat-chip role="listitem"
+                ><mat-icon>done</mat-icon>Always Send Client Claims</mat-chip
+              >
+              }
             </mat-chip-set>
           </div>
         </div>
@@ -86,7 +120,11 @@
             <mat-tab label="Redirect uris">
               <!-- <redirect-uris [uris]="client?.redirectUris"></redirect-uris> -->
               <diV class="clients-props-container">
-                <table mat-table [dataSource]="uris" class="mat-elevation-z8">
+                <table
+                  mat-table
+                  [dataSource]="(client | async)?.redirectUris!"
+                  class="mat-elevation-z8"
+                >
                   <ng-container matColumnDef="redirectUri">
                     <th mat-header-cell *matHeaderCellDef>Uris</th>
                     <td mat-cell *matCellDef="let uri">
@@ -106,7 +144,11 @@
             </mat-tab>
             <mat-tab label="Secrets">
               <!-- <client-secrets [secrets]="client?.clientSecrets"></client-secrets> -->
-              <table mat-table [dataSource]="secrets" class="mat-elevation-z8">
+              <table
+                mat-table
+                [dataSource]="(client | async)?.clientSecrets!"
+                class="mat-elevation-z8"
+              >
                 <ng-container matColumnDef="type">
                   <th mat-header-cell *matHeaderCellDef>Type</th>
                   <td mat-cell *matCellDef="let secret">
@@ -158,20 +200,26 @@
             <mat-tab label="Grant types">
               <!-- <grant-types [grantTypes]="client?.allowedGrantTypes"></grant-types> -->
               <mat-chip-set>
-                <mat-chip>client-credentials</mat-chip>
-                <mat-chip>implicit</mat-chip>
+                @for(gt of (client |async)?.allowedGrantTypes; track gt.id;){
+                <mat-chip>{{ gt.grantType }}</mat-chip>
+                }
               </mat-chip-set>
             </mat-tab>
             <mat-tab label="Allowed scopes">
               <!-- <client-scopes [scopes]="client?.allowedScopes"></client-scopes> -->
               <mat-chip-set>
-                <mat-chip>api1</mat-chip>
-                <mat-chip>api2</mat-chip>
+                @for(scope of (client | async)?.allowedScopes; track scope.id){
+                <mat-chip>{{ scope.scope }}</mat-chip>
+                }
               </mat-chip-set>
             </mat-tab>
             <mat-tab label="Claims">
               <!-- <claims [claims]="client?.claims"></claims> -->
-              <table mat-table [dataSource]="claims" class="mat-elevation-z8">
+              <table
+                mat-table
+                [dataSource]="(client | async)?.claims!"
+                class="mat-elevation-z8"
+              >
                 <ng-container matColumnDef="claimtype">
                   <th mat-header-cell *matHeaderCellDef>Type</th>
                   <td mat-cell *matCellDef="let claim">
@@ -197,7 +245,11 @@
             </mat-tab>
             <mat-tab label="Allowed cors origins">
               <!-- <cors-origins [origins]="client?.allowedCorsOrigins"></cors-origins> -->
-              <table mat-table [dataSource]="origins" class="mat-elevation-z8">
+              <table
+                mat-table
+                [dataSource]="(client | async)?.allowedCorsOrigins!"
+                class="mat-elevation-z8"
+              >
                 <ng-container matColumnDef="origin">
                   <th mat-header-cell *matHeaderCellDef>Cors origin</th>
                   <td mat-cell *matCellDef="let origin">
@@ -216,7 +268,11 @@
               [uris]="client?.postLogoutRedirectUris"
             ></post-logout-redirect-uris> -->
               <diV class="clients-props-container">
-                <table mat-table [dataSource]="puris" class="mat-elevation-z8">
+                <table
+                  mat-table
+                  [dataSource]="(client | async)?.postLogoutRedirectUris!"
+                  class="mat-elevation-z8"
+                >
                   <ng-container matColumnDef="redirectUri">
                     <th mat-header-cell *matHeaderCellDef>Uris</th>
                     <td mat-cell *matCellDef="let uri">
@@ -239,8 +295,10 @@
               [restrictions]="client?.identityProviderRestrictions"
             ></idp-restrictions> -->
               <mat-chip-set>
-                <mat-chip>facebook</mat-chip>
-                <mat-chip>google</mat-chip>
+                @for(restriction of (client |
+                async)?.identityProviderRestrictions; track restriction.id){
+                <mat-chip>{{ restriction.provider }}</mat-chip>
+                }
               </mat-chip-set>
             </mat-tab>
             <mat-tab label="Properties">
@@ -249,7 +307,7 @@
             ></client-properties> -->
               <table
                 mat-table
-                [dataSource]="properties"
+                [dataSource]="(client | async)?.properties!"
                 class="mat-elevation-z8"
               >
                 <ng-container matColumnDef="key">
