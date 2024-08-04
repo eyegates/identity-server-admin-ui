@@ -67,6 +67,7 @@ export class ListClientComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
+    this.paginator.pageSize = 10;
     this.dataSource.paginator = this.paginator;
   }
 }

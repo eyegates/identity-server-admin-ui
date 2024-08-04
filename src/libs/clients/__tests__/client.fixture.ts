@@ -4,9 +4,9 @@ import type { Client } from '@/libs/clients/models/client.model';
 import { TestBed } from '@angular/core/testing';
 import { FakeClientsGateway } from '@/libs/clients/infra/fake-clients.gateway';
 import { ClientsFacade } from '@/libs/clients/state/clients.facade';
-import { selectAllClients, selectCurrentClient, type AppState } from '..';
-import { CLIENTSGATEWAY } from '../models/tokens';
-import { createStore } from '@/libs/common';
+import { selectAllClients, selectCurrentClient } from '@/libs';
+import { CLIENTSGATEWAY } from '@/libs/clients/models/tokens';
+import { createStore, type AppState } from '@/libs/common';
 
 export const createCientsFixture = () => {
   const clientsGateway = new FakeClientsGateway();

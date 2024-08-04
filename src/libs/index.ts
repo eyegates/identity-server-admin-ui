@@ -6,5 +6,5 @@ export {
   selectAllClients,
   selectCurrentClient,
 } from './clients';
-export { type AppState } from './clients';
+export { type AppState } from './common';
 export { createStore } from './common';

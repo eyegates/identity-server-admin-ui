@@ -1,7 +1,9 @@
 import { provideStore } from '@ngrx/store';
-import { clientEffects, reducers, type AppState } from '../clients';
+import { clientEffects } from '../clients';
 import { provideEffects } from '@ngrx/effects';
 import type { Provider } from '@angular/core';
+import type { AppState } from '..';
+import { reducers } from './root-reducer';
 
 export type Dependencies = {
   providers: Provider[];

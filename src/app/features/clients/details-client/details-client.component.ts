@@ -18,7 +18,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ids-details-client',
@@ -41,7 +40,7 @@ import { Observable } from 'rxjs';
   styleUrl: './details-client.component.sass',
 })
 export class DetailsClientComponent implements OnInit {
-  client: Observable<Client> = new Observable<Client>();
+  client!: Client;
 
   constructor(
     private store: Store<AppState>,
@@ -52,7 +51,9 @@ export class DetailsClientComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.client = this.store.pipe(select(selectCurrentClient));
+      this.store
+        .pipe(select(selectCurrentClient))
+        .subscribe((client) => (this.client = client));
       this.clientsFacade.selectClient(params['clientId']);
     });
   }
