@@ -1,9 +1,4 @@
-import {
-  ClientsFacade,
-  type Client,
-  type AppState,
-  selectAllClients,
-} from '@/libs';
+import { ClientsFacade, type AppState, type Client } from '@/libs';
 import {
   Component,
   ElementRef,
@@ -21,8 +16,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { createClientListViewModel } from './clients.viewmodel';
 
 @Component({
   selector: 'ids-list-client',
@@ -44,10 +39,12 @@ import { Observable } from 'rxjs';
   styleUrl: './list-client.component.sass',
 })
 export class ListClientComponent implements AfterViewInit, OnInit {
-  clients: Observable<Client[]> = new Observable<Client[]>();
-  dataSource = new MatTableDataSource<Client>();
-  displayedColumns = ['menu', 'ClientId', 'GrantType'];
-  resultsLength = 0;
+  viewModel: ReturnType<typeof createClientListViewModel> = {
+    clientTableDatasource: new MatTableDataSource<Client>(),
+    resultsLength: 0,
+    displayedColumns: [],
+    pageSizeOptions: [],
+  };
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('input') input!: ElementRef;
@@ -58,16 +55,14 @@ export class ListClientComponent implements AfterViewInit, OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.clients = this.store.pipe(select(selectAllClients));
-    this.clientsFacade.loadClients();
-    this.clients.subscribe((clients) => {
-      this.dataSource.data = clients;
-      this.resultsLength = clients.length;
+    this.viewModel = createClientListViewModel({
+      store: this.store,
+      clientsFacade: this.clientsFacade,
     });
   }
 
   ngAfterViewInit(): void {
     this.paginator.pageSize = 10;
-    this.dataSource.paginator = this.paginator;
+    this.viewModel.clientTableDatasource.paginator = this.paginator;
   }
 }

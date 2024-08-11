@@ -5,6 +5,7 @@ export {
   ClientsFacade,
   selectAllClients,
   selectCurrentClient,
+  selectTotalClients,
 } from './clients';
 export { type AppState } from './common';
 export { createStore } from './common';

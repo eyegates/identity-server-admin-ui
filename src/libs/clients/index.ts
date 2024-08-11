@@ -1,53 +1,18 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-
-import * as fromClients from './state/clients.reducers';
 import { loadClientsEffect } from './state/clients.effects';
-import type { Client } from './models/client.model';
-
+import { clientsFeature } from './state/clients.state';
+export { type ClientsState } from './state/clients.state';
 export type { Client } from './models/client.model';
 export { ClientsFacade } from './state/clients.facade';
-export * as clientReducers from './state/clients.reducers';
 export const clientEffects = { loadClients: loadClientsEffect };
 
-// -------------------------------------------------------------------
-// CLIENTS SELECTORS
-// -------------------------------------------------------------------
-export const selectClientsState =
-  createFeatureSelector<fromClients.ClientsState>('clients');
+export const selectProjectIds = clientsFeature.selectIds;
 
-export const selectProjectIds = createSelector(
-  selectClientsState,
-  fromClients.selectClientIds
-);
-export const selectClientEntities = createSelector(
-  selectClientsState,
-  fromClients.selectClientEntities
-);
-export const selectAllClients = createSelector(
-  selectClientsState,
-  fromClients.selectAllClients
-);
+export const selectClientEntities = clientsFeature.selectEntities;
 
-export const selectCurrentClientId = createSelector(
-  selectClientsState,
-  fromClients.getSelectedClientId
-);
+export const selectAllClients = clientsFeature.selectAll;
 
-const emptyClient: Client = {
-  id: 0,
-  clientId: '',
-  protocolType: 'oidc',
-  allowedGrantTypes: [],
-};
+export const selectCurrentClientId = clientsFeature.selectSelectedClientId;
 
-export const selectCurrentClient = createSelector(
-  selectClientEntities,
-  selectCurrentClientId,
-  (clientEntities, clientId) => {
-    return clientId
-      ? Object.values(clientEntities).find(
-          (client) => client?.clientId === clientId
-        ) ?? emptyClient
-      : emptyClient;
-  }
-);
+export const selectCurrentClient = clientsFeature.selectCurrentClient;
+
+export const selectTotalClients = clientsFeature.selectTotal;

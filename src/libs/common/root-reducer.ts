@@ -1,10 +1,13 @@
-import { clientReducers } from '@/libs/clients';
 import type { ActionReducerMap } from '@ngrx/store';
+import {
+  clientsFeature,
+  type ClientsState,
+} from '@/libs/clients/state/clients.state';
 
 export interface AppState {
-  clients: clientReducers.ClientsState;
+  clients: ClientsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  clients: clientReducers.clientsReducer,
+  [clientsFeature.name]: clientsFeature.reducer,
 };

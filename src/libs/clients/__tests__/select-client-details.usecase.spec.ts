@@ -26,26 +26,6 @@ describe('Select client details use case', () => {
       ])
     );
     clientsFixture.init(testStateBuilderProvider.getState());
-    /*{
-      clients: {
-        ids: [1, 2],
-        entities: {
-          1: {
-            id: 1,
-            clientId: 'client1',
-            protocolType: 'oidc',
-            allowedGrantTypes: [{ id: 1, grantType: 'client_credentials' }],
-          },
-          2: {
-            id: 2,
-            clientId: 'client2',
-            protocolType: 'oidc',
-            allowedGrantTypes: [{ id: 1, grantType: 'client_credentials' }],
-          },
-        },
-        selectedClientId: '',
-      },
-    }*/
 
     clientsFixture.whenSelectClient('client1');
 

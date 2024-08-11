@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { type ClientsState } from './clients.reducers';
+import { type ClientsState } from './clients.state';
 import { LoadClients, SelectClient } from './client.actions';
 import { Injectable } from '@angular/core';
 
