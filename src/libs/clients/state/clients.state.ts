@@ -40,12 +40,9 @@ export const clientsFeature = createFeature({
     selectCurrentClient: createSelector(
       selectEntities,
       selectSelectedClientId,
-      (clientEntities, clientId) =>
-        clientId
-          ? Object.values(clientEntities).find(
-              (client) => client?.clientId === clientId
-            ) ?? emptyClient
-          : emptyClient
+      (clientEntities, clientId) => {
+        return clientEntities[clientId ?? 'none'] ?? emptyClient;
+      }
     ),
   }),
 });

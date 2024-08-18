@@ -115,4 +115,6 @@ export type ClientScope = {
   scope: string;
 };
 
-export const clientsAdapter = createEntityAdapter<Client>();
+export const clientsAdapter = createEntityAdapter<Client>({
+  selectId: (client: Client) => client.clientId,
+});
