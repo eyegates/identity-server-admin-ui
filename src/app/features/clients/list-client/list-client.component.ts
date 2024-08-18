@@ -1,4 +1,4 @@
-import { ClientsFacade, type AppState, type Client } from '@/libs';
+import { ClientsFacade, type Client } from '@/libs';
 import {
   Component,
   ElementRef,
@@ -16,7 +16,6 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { createClientListViewModel } from './clients.viewmodel';
 
 @Component({
@@ -49,14 +48,10 @@ export class ListClientComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('input') input!: ElementRef;
 
-  constructor(
-    private clientsFacade: ClientsFacade,
-    private store: Store<AppState>
-  ) {}
+  constructor(private clientsFacade: ClientsFacade) {}
 
   ngOnInit(): void {
     this.viewModel = createClientListViewModel({
-      store: this.store,
       clientsFacade: this.clientsFacade,
     });
   }

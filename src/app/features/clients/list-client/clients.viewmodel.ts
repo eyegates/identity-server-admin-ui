@@ -1,21 +1,13 @@
-import {
-  type ClientsFacade,
-  selectAllClients,
-  selectTotalClients,
-  type Client,
-} from '@/libs';
+import { type ClientsFacade, type Client } from '@/libs';
 import { MatTableDataSource } from '@angular/material/table';
-import { select, type Store } from '@ngrx/store';
 
 export const createClientListViewModel = ({
-  store,
   clientsFacade,
 }: {
-  store: Store;
   clientsFacade: ClientsFacade;
 }) => {
-  let clients = store.pipe(select(selectAllClients));
-  let totalClients = store.pipe(select(selectTotalClients));
+  let clients = clientsFacade.allClients;
+  let totalClients = clientsFacade.totalClient;
 
   const displayedColumns = ['menu', 'ClientId', 'GrantType'];
   const pageSizeOptions = [5, 10, 20];

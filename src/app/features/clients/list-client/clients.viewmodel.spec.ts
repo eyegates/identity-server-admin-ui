@@ -4,15 +4,12 @@ import {
 } from '@/libs/clients/__tests__/client.fixture';
 import { stateBuilderProvider } from '@/libs/common';
 import { createClientListViewModel } from './clients.viewmodel';
-import { Store } from '@ngrx/store';
 import { ClientsFacade, type Client } from '@/libs';
 import { TestBed } from '@angular/core/testing';
-import { MatTableDataSource } from '@angular/material/table';
 
 describe('Clients View Model', () => {
   let clientsFixture: ClientFixture;
   let testStateBuilderProvider = stateBuilderProvider();
-  let store: Store;
   let clientsFacade: ClientsFacade;
 
   beforeEach(() => {
@@ -51,12 +48,8 @@ describe('Clients View Model', () => {
       ])
     );
     clientsFixture.init(testStateBuilderProvider.getState());
-    store = TestBed.inject(Store);
     clientsFacade = TestBed.inject(ClientsFacade);
-    const datasource = new MatTableDataSource<Client>();
-    datasource.data = clientList;
     const viewModel = createClientListViewModel({
-      store,
       clientsFacade,
     });
 

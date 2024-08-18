@@ -1,9 +1,4 @@
-import {
-  type AppState,
-  type Client,
-  ClientsFacade,
-  selectCurrentClient,
-} from '@/libs';
+import { type Client, ClientsFacade } from '@/libs';
 import { CommonModule } from '@angular/common';
 import { Component, type OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,8 +11,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import type { Observable } from 'rxjs';
 
 @Component({
   selector: 'ids-details-client',
@@ -41,19 +36,17 @@ import { select, Store } from '@ngrx/store';
 })
 export class DetailsClientComponent implements OnInit {
   client!: Client;
+  protected selectedClient: Observable<Client> | undefined;
 
   constructor(
-    private store: Store<AppState>,
     private route: ActivatedRoute,
-    private router: Router,
     private clientsFacade: ClientsFacade
   ) {}
 
   ngOnInit() {
+    this.selectedClient = this.clientsFacade.currentClient;
+    this.selectedClient.subscribe((client) => (this.client = client));
     this.route.params.subscribe((params) => {
-      this.store
-        .pipe(select(selectCurrentClient))
-        .subscribe((client) => (this.client = client));
       this.clientsFacade.selectClient(params['clientId']);
     });
   }
