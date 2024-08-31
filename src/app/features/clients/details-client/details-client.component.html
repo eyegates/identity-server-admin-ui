@@ -5,7 +5,7 @@
         <a
           mat-raised-button
           color="primary"
-          [routerLink]="['/clients', 'client1', 'edit']"
+          [routerLink]="['/clients', viewModel.selectedClient.clientId, 'edit']"
           >Modifier</a
         >
       </div>
@@ -15,7 +15,7 @@
     </mat-toolbar>
     <mat-toolbar>
       <div class="col-3">
-        <h2>Client : {{ client.clientId | uppercase }}</h2>
+        <h2>Client : {{ viewModel.selectedClient.clientId | uppercase }}</h2>
       </div>
     </mat-toolbar>
   </div>
@@ -25,91 +25,35 @@
         <table>
           <tr>
             <td class="label">Client id :</td>
-            <td>{{ client.clientId }}</td>
+            <td>{{ viewModel.selectedClient.clientId }}</td>
           </tr>
           <tr>
             <td class="label">Client name :</td>
-            <td>{{ client.clientName }}</td>
+            <td>{{ viewModel.selectedClient.clientName }}</td>
           </tr>
           <tr>
             <td class="label">Description :</td>
-            <td>{{ client.description }}</td>
+            <td>{{ viewModel.selectedClient.description }}</td>
           </tr>
           <tr>
             <td class="label">Protocol Type :</td>
-            <td>{{ client.protocolType }}</td>
+            <td>{{ viewModel.selectedClient.protocolType }}</td>
           </tr>
           <tr>
             <td class="label">Client uri :</td>
-            <td>{{ client.clientUri }}</td>
+            <td>{{ viewModel.selectedClient.clientUri }}</td>
           </tr>
           <tr>
             <td class="label">Logo uri :</td>
-            <td>{{ client.logoUri }}</td>
+            <td>{{ viewModel.selectedClient.logoUri }}</td>
           </tr>
         </table>
         <div class="paddingTop20">
           <div class="row">
             <mat-chip-set role="list" class="mat-mdc-chip-set">
-              @if(client.requireClientSecret){
+              @for(capability of viewModel.capabilities; track capability;){
               <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon> Require secret</mat-chip
-              >
-              } @if(client.requireConsent){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Require consent</mat-chip
-              >
-              } @if(client.allowRememberConsent){ }
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Allow remember consent</mat-chip
-              >@if(client.alwaysIncludeUserClaimsInIdToken){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Always include user claims in
-                idToken</mat-chip
-              >
-              }@if(client.requirePkce){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Require Pkce</mat-chip
-              >
-              }@if(client.allowPlainTextPkce){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Allow Plain Text Pkce</mat-chip
-              >
-              }@if(client.allowAccessTokensViaBrowser){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Allow AccessTokens Via
-                Browser</mat-chip
-              >
-              }@if(client.frontChannelLogoutSessionRequired){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Front Channel Logout Session
-                Required</mat-chip
-              >
-              }@if(client.backChannelLogoutSessionRequired){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Back Channel Logout Session
-                Required</mat-chip
-              >
-              }@if(client.allowOfflineAccess){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Allow Offline Access</mat-chip
-              >
-              }@if(client.updateAccessTokenClaimsOnRefresh){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Update AccessToken Claims On
-                Refresh</mat-chip
-              >
-              }@if(client.enableLocalLogin){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Enable Local Login</mat-chip
-              >
-              }@if(client.includeJwtId){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Include Jwt Id</mat-chip
-              >
-              }@if(client.alwaysSendClientClaims){
-              <mat-chip role="listitem"
-                ><mat-icon>done</mat-icon>Always Send Client Claims</mat-chip
+                ><mat-icon>done</mat-icon> {{ capability }}</mat-chip
               >
               }
             </mat-chip-set>
@@ -122,7 +66,7 @@
               <diV class="clients-props-container">
                 <table
                   mat-table
-                  [dataSource]="client.redirectUris!"
+                  [dataSource]="viewModel.selectedClient.redirectUris!"
                   class="mat-elevation-z8"
                 >
                   <ng-container matColumnDef="redirectUri">
@@ -146,7 +90,7 @@
               <!-- <client-secrets [secrets]="client?.clientSecrets"></client-secrets> -->
               <table
                 mat-table
-                [dataSource]="client.clientSecrets!"
+                [dataSource]="viewModel.selectedClient.clientSecrets!"
                 class="mat-elevation-z8"
               >
                 <ng-container matColumnDef="type">
@@ -200,7 +144,8 @@
             <mat-tab label="Grant types">
               <!-- <grant-types [grantTypes]="client?.allowedGrantTypes"></grant-types> -->
               <mat-chip-set>
-                @for(gt of client.allowedGrantTypes; track gt.id;){
+                @for(gt of viewModel.selectedClient.allowedGrantTypes; track
+                gt.id;){
                 <mat-chip>{{ gt.grantType }}</mat-chip>
                 }
               </mat-chip-set>
@@ -208,7 +153,8 @@
             <mat-tab label="Allowed scopes">
               <!-- <client-scopes [scopes]="client?.allowedScopes"></client-scopes> -->
               <mat-chip-set>
-                @for(scope of client.allowedScopes; track scope.id){
+                @for(scope of viewModel.selectedClient.allowedScopes; track
+                scope.id){
                 <mat-chip>{{ scope.scope }}</mat-chip>
                 }
               </mat-chip-set>
@@ -217,7 +163,7 @@
               <!-- <claims [claims]="client?.claims"></claims> -->
               <table
                 mat-table
-                [dataSource]="client.claims!"
+                [dataSource]="viewModel.selectedClient.claims!"
                 class="mat-elevation-z8"
               >
                 <ng-container matColumnDef="claimtype">
@@ -247,7 +193,7 @@
               <!-- <cors-origins [origins]="client?.allowedCorsOrigins"></cors-origins> -->
               <table
                 mat-table
-                [dataSource]="client.allowedCorsOrigins!"
+                [dataSource]="viewModel.selectedClient.allowedCorsOrigins!"
                 class="mat-elevation-z8"
               >
                 <ng-container matColumnDef="origin">
@@ -270,7 +216,9 @@
               <diV class="clients-props-container">
                 <table
                   mat-table
-                  [dataSource]="client.postLogoutRedirectUris!"
+                  [dataSource]="
+                    viewModel.selectedClient.postLogoutRedirectUris!
+                  "
                   class="mat-elevation-z8"
                 >
                   <ng-container matColumnDef="redirectUri">
@@ -295,7 +243,8 @@
               [restrictions]="client?.identityProviderRestrictions"
             ></idp-restrictions> -->
               <mat-chip-set>
-                @for(restriction of client.identityProviderRestrictions; track
+                @for(restriction of
+                viewModel.selectedClient.identityProviderRestrictions; track
                 restriction.id){
                 <mat-chip>{{ restriction.provider }}</mat-chip>
                 }
@@ -307,7 +256,7 @@
             ></client-properties> -->
               <table
                 mat-table
-                [dataSource]="client.properties!"
+                [dataSource]="viewModel.selectedClient.properties!"
                 class="mat-elevation-z8"
               >
                 <ng-container matColumnDef="key">

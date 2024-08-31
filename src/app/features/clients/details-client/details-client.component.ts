@@ -1,4 +1,4 @@
-import { type Client, ClientsFacade } from '@/libs';
+import { ClientsFacade } from '@/libs';
 import { CommonModule } from '@angular/common';
 import { Component, type OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import type { Observable } from 'rxjs';
+import { createClientDetailsViewModel } from './client-details.viewmodel';
 
 @Component({
   selector: 'ids-details-client',
@@ -35,8 +35,7 @@ import type { Observable } from 'rxjs';
   styleUrl: './details-client.component.sass',
 })
 export class DetailsClientComponent implements OnInit {
-  client!: Client;
-  protected selectedClient: Observable<Client> | undefined;
+  viewModel!: ReturnType<typeof createClientDetailsViewModel>;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,10 +43,11 @@ export class DetailsClientComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.selectedClient = this.clientsFacade.currentClient;
-    this.selectedClient.subscribe((client) => (this.client = client));
     this.route.params.subscribe((params) => {
-      this.clientsFacade.selectClient(params['clientId']);
+      this.viewModel = createClientDetailsViewModel({
+        clientsFacade: this.clientsFacade,
+        clientId: params['clientId'],
+      });
     });
   }
 }

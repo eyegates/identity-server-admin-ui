@@ -26,6 +26,8 @@ export class HttpClientsGateway implements ClientsGateway {
       ],
       identityProviderRestrictions: [{ id: 1, provider: 'facebook' }],
       properties: [{ id: 1, key: 'source', value: 'internal' }],
+      requireClientSecret: true,
+      allowAccessTokensViaBrowser: true,
     },
     {
       clientId: 'app-back',
