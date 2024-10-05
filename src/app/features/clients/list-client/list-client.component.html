@@ -15,7 +15,11 @@
   </div>
   <div class="container-fluid">
     <mat-form-field>
-      <input matInput placeholder="Filter" #input />
+      <input
+        matInput
+        placeholder="Filter"
+        (keyup)="viewModel.filterSubject.next($any($event.target).value)"
+      />
     </mat-form-field>
     <table
       mat-table

@@ -6,10 +6,12 @@ import { clientsAdapter, type Client } from '../models/client.model';
 
 export interface ClientsState extends EntityState<Client> {
   selectedClientId: string | null;
+  totalCount: number;
 }
 
 export const initialState: ClientsState = clientsAdapter.getInitialState({
   selectedClientId: null,
+  totalCount: 0,
 });
 
 const emptyClient: Client = {
@@ -23,9 +25,12 @@ export const clientsFeature = createFeature({
   name: 'clients',
   reducer: createReducer(
     initialState,
-    on(ClientActions.ClientsLoaded, (state, action) =>
-      clientsAdapter.addMany(action.payload, state)
-    ),
+    on(ClientActions.ClientsLoaded, (state, action) => {
+      return clientsAdapter.setAll(action.payload.data, {
+        ...state,
+        totalCount: action.payload.totalCount,
+      });
+    }),
     on(ClientActions.SelectClient, (state: ClientsState, { payload }) => ({
       ...state,
       selectedClientId: payload,
@@ -43,6 +48,10 @@ export const clientsFeature = createFeature({
       (clientEntities, clientId) => {
         return clientEntities[clientId ?? 'none'] ?? emptyClient;
       }
+    ),
+    selectTotalClient: createSelector(
+      selectClientsState,
+      (state: ClientsState) => state.totalCount
     ),
   }),
 });

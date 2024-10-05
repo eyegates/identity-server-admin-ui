@@ -1,4 +1,4 @@
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { type ClientsState } from './clients.state';
 import { LoadClients, SelectClient } from './client.actions';
 import { Injectable } from '@angular/core';
@@ -11,22 +11,30 @@ export class ClientsFacade {
   constructor(private store: Store<ClientsState>) {}
 
   get allClients(): Observable<Client[]> {
-    return this.store.select(selectAllClients);
+    return this.store.pipe(select(selectAllClients));
   }
 
   get currentClient(): Observable<Client> {
-    return this.store.select(selectCurrentClient);
+    return this.store.pipe(select(selectCurrentClient));
   }
 
   get totalClient(): Observable<number> {
-    return this.store.select(selectTotalClients);
+    return this.store.pipe(select(selectTotalClients));
   }
 
   selectClient(clientId: string) {
     this.store.dispatch(SelectClient({ payload: clientId }));
   }
 
-  loadClients() {
-    this.store.dispatch(LoadClients());
+  loadClients({
+    offset,
+    pageSize,
+    filter,
+  }: {
+    offset: number;
+    pageSize: number;
+    filter?: string;
+  }) {
+    this.store.dispatch(LoadClients({ payload: { offset, pageSize, filter } }));
   }
 }

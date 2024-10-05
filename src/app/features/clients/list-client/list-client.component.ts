@@ -1,7 +1,6 @@
-import { ClientsFacade, type Client } from '@/libs';
+import { ClientsFacade } from '@/libs';
 import {
   Component,
-  ElementRef,
   ViewChild,
   type AfterViewInit,
   type OnInit,
@@ -13,10 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { createClientListViewModel } from './clients.viewmodel';
+import {
+  createClientListViewModel,
+  type ClientListViewModel,
+} from './clients.viewmodel';
 
 @Component({
   selector: 'ids-list-client',
@@ -33,20 +35,13 @@ import { createClientListViewModel } from './clients.viewmodel';
     MatButtonModule,
     MatChipsModule,
   ],
-
   templateUrl: './list-client.component.html',
   styleUrl: './list-client.component.sass',
 })
 export class ListClientComponent implements AfterViewInit, OnInit {
-  viewModel: ReturnType<typeof createClientListViewModel> = {
-    clientTableDatasource: new MatTableDataSource<Client>(),
-    resultsLength: 0,
-    displayedColumns: [],
-    pageSizeOptions: [],
-  };
+  viewModel!: ClientListViewModel;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild('input') input!: ElementRef;
 
   constructor(private clientsFacade: ClientsFacade) {}
 
@@ -57,7 +52,7 @@ export class ListClientComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.paginator.pageSize = 10;
-    this.viewModel.clientTableDatasource.paginator = this.paginator;
+    this.paginator.pageSize = this.viewModel.defaultPageSize;
+    this.viewModel.bind(this.paginator);
   }
 }

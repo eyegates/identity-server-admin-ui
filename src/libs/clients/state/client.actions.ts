@@ -1,5 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import type { Client } from '../models/client.model';
+import type {
+  GatewayResponse,
+  PagingAndFilteringOptions,
+} from '../models/clients.gateway';
 
 export enum ClientsActionTypes {
   LoadClients = '[Clients] Load Data',
@@ -8,11 +12,14 @@ export enum ClientsActionTypes {
   SelectClient = '[Client] Details',
 }
 
-export const LoadClients = createAction(ClientsActionTypes.LoadClients);
+export const LoadClients = createAction(
+  ClientsActionTypes.LoadClients,
+  props<{ payload: PagingAndFilteringOptions }>()
+);
 
 export const ClientsLoaded = createAction(
   ClientsActionTypes.ClientsLoaded,
-  props<{ payload: Client[] }>()
+  props<{ payload: GatewayResponse<Client> }>()
 );
 
 export const ClientsLoadFailure = createAction(

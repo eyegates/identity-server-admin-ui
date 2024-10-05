@@ -31,29 +31,35 @@ function extractSelectedCapabilities(obj: Client): string[] {
     .map((key) => capabilitiesLabels[key as ClientCapabilities]);
 }
 
+export class ClientDetailsViewModel {
+  selectedClient: Client = <Client>{};
+  capabilities: string[] = [];
+
+  constructor({
+    clientsFacade,
+    clientId,
+  }: {
+    clientsFacade: ClientsFacade;
+    clientId: string;
+  }) {
+    clientsFacade.selectClient(clientId);
+
+    clientsFacade.currentClient.subscribe((client) => {
+      this.selectedClient = client;
+      this.capabilities = extractSelectedCapabilities(client);
+    });
+  }
+}
+
 export const createClientDetailsViewModel = ({
   clientsFacade,
   clientId,
 }: {
   clientsFacade: ClientsFacade;
   clientId: string;
-}) => {
-  let client = clientsFacade.currentClient;
-  let selectedClient: Client = {
-    id: 0,
-    clientId: '',
-    protocolType: 'oidc',
-    allowedGrantTypes: [],
-  };
-  let capabilities: string[] = [];
-  clientsFacade.selectClient(clientId);
-  client.subscribe((client) => {
-    selectedClient = client;
-    capabilities = extractSelectedCapabilities(client);
+}): ClientDetailsViewModel => {
+  return new ClientDetailsViewModel({
+    clientsFacade,
+    clientId,
   });
-
-  return {
-    selectedClient,
-    capabilities,
-  };
 };

@@ -4,7 +4,11 @@ import type { Client } from '@/libs/clients/models/client.model';
 import { TestBed } from '@angular/core/testing';
 import { FakeClientsGateway } from '@/libs/clients/infra/fake-clients.gateway';
 import { ClientsFacade } from '@/libs/clients/state/clients.facade';
-import { selectAllClients, selectCurrentClient } from '@/libs';
+import {
+  selectAllClients,
+  selectCurrentClient,
+  selectTotalClients,
+} from '@/libs';
 import { CLIENTSGATEWAY } from '@/libs/clients/models/tokens';
 import { createStore, type AppState } from '@/libs/common';
 
@@ -37,10 +41,15 @@ export const createCientsFixture = () => {
       clientsFacade = TestBed.inject(ClientsFacade);
       clientsFacade.selectClient(clientId);
     },
-    whenRetrievingClientList() {
+    whenRetrievingClientList(pageAndFilterOptions: {
+      offset: number;
+      pageSize: number;
+      filter?: string;
+    }) {
       store = TestBed.inject(Store);
       clientsFacade = TestBed.inject(ClientsFacade);
-      clientsFacade.loadClients();
+      const { offset, pageSize, filter } = pageAndFilterOptions;
+      clientsFacade.loadClients({ offset, pageSize, filter });
     },
     thenReceivedClientListShoudBe(clientList: Client[]) {
       store.select(selectAllClients).subscribe((clients) => {
@@ -51,6 +60,11 @@ export const createCientsFixture = () => {
       store = TestBed.inject(Store);
       store.select(selectCurrentClient).subscribe((client) => {
         expect(client).toEqual(clientDetails);
+      });
+    },
+    thenTotalCountShouldBe(count: number) {
+      store.select(selectTotalClients).subscribe((clientCount) => {
+        expect(clientCount).toEqual(count);
       });
     },
   };

@@ -12,8 +12,8 @@ export const loadClientsEffect = createEffect(
   (actions$ = inject(Actions), clientsGateway = inject(CLIENTSGATEWAY)) => {
     return actions$.pipe(
       ofType(ClientsActionTypes.LoadClients),
-      exhaustMap(() =>
-        clientsGateway.loadClients().pipe(
+      exhaustMap((action) =>
+        clientsGateway.loadClients(action.payload).pipe(
           map((clients) => ClientsLoaded({ payload: clients })),
           catchError((error: { message: string }) => of(ClientsLoadFailure()))
         )

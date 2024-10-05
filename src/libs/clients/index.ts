@@ -15,4 +15,4 @@ export const selectCurrentClientId = clientsFeature.selectSelectedClientId;
 
 export const selectCurrentClient = clientsFeature.selectCurrentClient;
 
-export const selectTotalClients = clientsFeature.selectTotal;
+export const selectTotalClients = clientsFeature.selectTotalClient;
