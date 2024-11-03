@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Grant types</h2>
+<mat-dialog-content>
+  <div>
+    <mat-selection-list
+      [(ngModel)]="SelectedGrantTypes"
+      (ngModelChange)="onNgModelChange()"
+    >
+      @for (gt of grantTypesData; track gt) {
+      <mat-list-option [value]="gt" [disabled]="!gt.selectable">
+        {{gt.type}}
+      </mat-list-option>
+
+      }
+    </mat-selection-list>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button
+    mat-raised-button
+    [mat-dialog-close]="grantTypes"
+    color="primary"
+    cdkFocusInitial
+  >
+    Ajouter
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-dialog-actions>

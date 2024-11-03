@@ -1,7 +1,7 @@
 export { HttpClientsGateway } from './clients/infra/http-clients.gateway';
 export { CLIENTSGATEWAY } from './clients/models/tokens';
 export {
-  type Client,
+  type ClientTypes,
   ClientsFacade,
   selectAllClients,
   selectCurrentClient,

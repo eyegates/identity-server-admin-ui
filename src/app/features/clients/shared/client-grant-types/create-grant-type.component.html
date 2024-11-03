@@ -1,0 +1,36 @@
+<div class="col-12 text-center">
+  <button mat-raised-button color="primary" (click)="openDialog()">
+    Sélectionner les grant types
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<div class="wrapper" style="padding: 10px">
+  <div class="chips">
+    <mat-chip-listbox #chipList>
+      @for (gt of GranTypes; track gt) {
+      <mat-chip-option
+        [selectable]="false"
+        [removable]="true"
+        (removed)="removeGrantType(gt)"
+      >
+        {{ gt.grantType }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip-option>
+      }
+    </mat-chip-listbox>
+  </div>
+
+  @if(!hasGrantTypes){
+
+  <div class="text-center empty">
+    <div class="alert alert-warning" role="alert">
+      <p>
+        <mat-icon color="warn">warning</mat-icon><br />
+        Attention vous n'avez sélectionné aucun grant type. Votre client ne sera
+        pas fonctionnel.<br />
+        Ajoutez en un en cliquant sur "Sélectionner les grant types"
+      </p>
+    </div>
+  </div>
+  }
+</div>

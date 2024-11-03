@@ -31,6 +31,12 @@ export const clientsFeature = createFeature({
         totalCount: action.payload.totalCount,
       });
     }),
+    on(ClientActions.ClientCreated, (state, action) => {
+      return clientsAdapter.upsertOne(action.payload, {
+        ...state,
+        totalCount: state.totalCount + 1,
+      });
+    }),
     on(ClientActions.SelectClient, (state: ClientsState, { payload }) => ({
       ...state,
       selectedClientId: payload,

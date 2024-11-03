@@ -16,4 +16,6 @@ export interface ClientsGateway {
   loadClients: (
     options: PagingAndFilteringOptions
   ) => Observable<GatewayResponse<Client>>;
+
+  createClient: (client: Client) => Observable<Client>;
 }

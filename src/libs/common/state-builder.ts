@@ -6,8 +6,9 @@ import {
   props,
 } from '@ngrx/store';
 import { reducers, type AppState } from './root-reducer';
-import type { Client } from '../clients';
+import type { ClientTypes } from '../clients';
 import { clientsAdapter } from '../clients/models/client.model';
+type Client = ClientTypes.Client;
 
 const rootReducer = combineReducers(reducers);
 const initialState = rootReducer(undefined, createAction(''));

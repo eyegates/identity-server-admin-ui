@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +10,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { buildCreateClientViewModel } from './create-client.viewmodel';
+import { CreateClientSecretsComponent } from '../shared/client-secrets/create-client-secrets.component';
+import { JsonPipe } from '@angular/common';
+import { CreateGrantTypeComponent } from '../shared/client-grant-types/create-grant-type.component';
 
 @Component({
   selector: 'ids-create-client',
@@ -25,10 +29,19 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    JsonPipe,
+    CreateClientSecretsComponent,
+    CreateGrantTypeComponent,
   ],
   templateUrl: './create-client.component.html',
   styleUrl: './create-client.component.sass',
 })
-export class CreateClientComponent {
+export class CreateClientComponent implements OnInit {
+  viewModel!: ReturnType<typeof buildCreateClientViewModel>;
   constructor(private _formBuilder: FormBuilder) {}
+  ngOnInit(): void {
+    this.viewModel = buildCreateClientViewModel(this._formBuilder);
+  }
 }

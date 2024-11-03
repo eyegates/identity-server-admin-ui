@@ -1,6 +1,6 @@
 import { select, Store } from '@ngrx/store';
 import { type ClientsState } from './clients.state';
-import { LoadClients, SelectClient } from './client.actions';
+import { CreateClient, LoadClients, SelectClient } from './client.actions';
 import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import type { Client } from '../models/client.model';
@@ -36,5 +36,9 @@ export class ClientsFacade {
     filter?: string;
   }) {
     this.store.dispatch(LoadClients({ payload: { offset, pageSize, filter } }));
+  }
+
+  createClient(client: Client) {
+    this.store.dispatch(CreateClient({ payload: client }));
   }
 }

@@ -3,9 +3,10 @@ import {
   type ClientFixture,
 } from '@/libs/clients/__tests__/client.fixture';
 import { stateBuilderProvider } from '@/libs/common';
-import { ClientsFacade, type Client } from '@/libs';
+import { ClientsFacade, type ClientTypes } from '@/libs';
 import { TestBed } from '@angular/core/testing';
 import { createClientDetailsViewModel } from './client-details.viewmodel';
+type Client = ClientTypes.Client;
 
 describe('Clients View Model', () => {
   let clientsFixture: ClientFixture;

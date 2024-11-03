@@ -67,6 +67,17 @@ export const createCientsFixture = () => {
         expect(clientCount).toEqual(count);
       });
     },
+    whenCreateClient(client: Client) {
+      store = TestBed.inject(Store);
+      clientsFacade = TestBed.inject(ClientsFacade);
+      clientsFacade.createClient(client);
+    },
+    thenRemoteClientListShoudBe(remoteClientList: Client[]) {
+      store = TestBed.inject(Store);
+      store.select(selectAllClients).subscribe((clients) => {
+        expect(clients).toEqual(remoteClientList);
+      });
+    },
   };
 };
 

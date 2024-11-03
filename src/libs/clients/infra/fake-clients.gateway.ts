@@ -7,6 +7,11 @@ import type { Client } from '../models/client.model';
 import { of, type Observable } from 'rxjs';
 
 export class FakeClientsGateway implements ClientsGateway {
+  createClient(client: Client): Observable<Client> {
+    this.clients.push(client);
+    return of(Object.assign(<Client>{}, client));
+  }
+
   loadClients(
     options: PagingAndFilteringOptions
   ): Observable<GatewayResponse<Client>> {

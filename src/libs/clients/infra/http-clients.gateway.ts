@@ -9,6 +9,10 @@ import { of, type Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HttpClientsGateway implements ClientsGateway {
+  createClient(client: Client): Observable<Client> {
+    this.clients.push(client);
+    return of(Object.assign(<Client>{}, client));
+  }
   loadClients(
     options: PagingAndFilteringOptions
   ): Observable<GatewayResponse<Client>> {

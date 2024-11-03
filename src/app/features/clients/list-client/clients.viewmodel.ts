@@ -1,7 +1,8 @@
-import { type ClientsFacade, type Client } from '@/libs';
+import { type ClientsFacade, type ClientTypes } from '@/libs';
 import type { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, merge, Subject, tap } from 'rxjs';
+type Client = ClientTypes.Client;
 
 export class ClientListViewModel {
   clientTableDatasource = new MatTableDataSource<Client>();

@@ -9,9 +9,9 @@
   <div class="container-fluid">
     <mat-card>
       <mat-card-content>
-        <mat-horizontal-stepper [linear] #stepper>
-          <mat-step>
-            <form>
+        <mat-horizontal-stepper [linear]="true" #stepper>
+          <mat-step [editable]="true" [stepControl]="viewModel.clientFormGroup">
+            <form [formGroup]="viewModel.clientFormGroup">
               <ng-template matStepLabel>Propriétés</ng-template>
               <div class="container paddingTop20">
                 <div class="row">
@@ -39,9 +39,12 @@
                       formControlName="protocolType"
                       name="Protocol type"
                     >
-                      <mat-option value="oidc">OpenIdConnect</mat-option>
-                      <mat-option value="wsfed">WsFederation</mat-option>
-                      <mat-option value="saml2p">Saml2p</mat-option>
+                      @for(protocol of viewModel.protocolTypeList; track
+                      protocol){
+                      <mat-option [value]="protocol.id">{{
+                        protocol.value
+                      }}</mat-option>
+                      }
                     </mat-select>
                   </mat-form-field>
                   <div class="col inline">
@@ -175,8 +178,12 @@
                       formControlName="refreshTokenUsage"
                       name="Refresh Token Usage"
                     >
-                      <mat-option value="1">OneTimeOnly</mat-option>
-                      <mat-option value="0">ReUse</mat-option>
+                      @for(usage of viewModel.refreshTokenUsageList; track
+                      usage){
+                      <mat-option [value]="usage.id">{{
+                        usage.value
+                      }}</mat-option>
+                      }
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -188,8 +195,12 @@
                       formControlName="refreshTokenExpiration"
                       name="Refresh Token expiration"
                     >
-                      <mat-option value="1">Absolute</mat-option>
-                      <mat-option value="0">Sliding</mat-option>
+                      @for(expiration of viewModel.refreshTokenExpirationList;
+                      track expiration){
+                      <mat-option [value]="expiration.id">{{
+                        expiration.value
+                      }}</mat-option>
+                      }
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field class="col-4" appearance="outline">
@@ -199,8 +210,12 @@
                       formControlName="accessTokenType"
                       name="Access Token type"
                     >
-                      <mat-option value="1">Reference</mat-option>
-                      <mat-option value="0">Jwt</mat-option>
+                      @for(tokenType of viewModel.accessTokenTypeList; track
+                      tokenType){
+                      <mat-option [value]="tokenType.id">{{
+                        tokenType.value
+                      }}</mat-option>
+                      }
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field class="col-4" appearance="outline">
@@ -227,35 +242,22 @@
           </mat-step>
 
           <mat-step>
-            <form>
+            <form [formGroup]="viewModel.clientFormGroup">
               <ng-template matStepLabel>Capabilities</ng-template>
               <div class="col-12 paddingTop20">
-                <mat-chip-listbox multiple class="mat-mdc-chip-set">
-                  <mat-chip-option selected>Require secret</mat-chip-option>
-                  <mat-chip-option>Require consent</mat-chip-option>
-                  <mat-chip-option>Allow remember consent</mat-chip-option>
-                  <mat-chip-option selected
-                    >Always include user claims in idToken</mat-chip-option
-                  >
-                  <mat-chip-option>Require Pkce</mat-chip-option>
-                  <mat-chip-option>Allow Plain Text Pkce</mat-chip-option>
-                  <mat-chip-option
-                    >Allow AccessTokens Via Browser</mat-chip-option
-                  >
-                  <mat-chip-option
-                    >Front Channel Logout Session Required</mat-chip-option
-                  >
-                  <mat-chip-option
-                    >Back Channel Logout Session Required</mat-chip-option
-                  >
-                  <mat-chip-option>Allow Offline Access</mat-chip-option>
-                  <mat-chip-option
-                    >Update AccessToken Claims On Refresh</mat-chip-option
-                  >
-                  <mat-chip-option>Enable Local Login</mat-chip-option>
-                  <mat-chip-option>Include Jwt Id</mat-chip-option>
-                  <mat-chip-option>Always Send Client Claims</mat-chip-option>
+                <mat-chip-listbox
+                  multiple
+                  class="mat-mdc-chip-set"
+                  formControlName="capabilities"
+                  #list
+                >
+                  @for(capability of viewModel.capabilities; track capability){
+                  <mat-chip-option [value]="capability[0]">{{
+                    capability[1]
+                  }}</mat-chip-option>
+                  }
                 </mat-chip-listbox>
+                <pre>{{ viewModel.clientFormGroup.value | json }}</pre>
               </div>
               <div class="col-12 paddingTop20">
                 <div class="col-1 inline">
@@ -285,87 +287,21 @@
           <mat-step>
             <ng-template matStepLabel>Auth configuration</ng-template>
             <div class="col-12 paddingTop20">
+              @if
+              (viewModel.clientFormGroup.value.capabilities?.includes('requireClientSecret'))
+              {
               <div class="col-12 inline v-aligntop">
-                <!-- to move to it's own component -->
-                <div class="col-12 text-center">
-                  <button mat-raised-button color="primary">
-                    Ajouter un secret
-                    <mat-icon>add</mat-icon>
-                  </button>
-                </div>
-                <div class="wrapper">
-                  @if(true){
-                  <table>
-                    <tr>
-                      <th></th>
-                      <th>Type</th>
-                      <th>Secret</th>
-                      <th>Expiration</th>
-                      <th>Description</th>
-                    </tr>
-                    <tr class="separator">
-                      <td>
-                        <button mat-icon-button color="warn">
-                          <mat-icon>delete</mat-icon>
-                        </button>
-                      </td>
-                      <td>secret.type</td>
-                      <td>secret.value</td>
-                      <td>secret.expiration</td>
-                      <td>secret.description</td>
-                    </tr>
-                  </table>
-                  }
-                  <!-- @if(false){
-                  <div class="text-center empty">
-                    <div class="alert alert-danger" role="alert">
-                      <p>
-                        <mat-icon color="warn">warning</mat-icon>
-                        <br />
-                        Attention vous n'avez ajouté aucun secret or votre
-                        client exige un secret. <br />
-                        Ajoutez en un en cliquant sur "Ajouter un secret"
-                      </p>
-                    </div>
-                  </div>
-                  } -->
-                </div>
+                <ids-create-secret
+                  [secretTypes]="viewModel.secretTypes"
+                  (secretChanged)="viewModel.onsecretChanged($event)"
+                />
               </div>
+              }
               <div class="col-4 inline v-aligntop">
-                <!-- <create-grant-type
-                  (gtSelectionChange)="onGtSelectionChange($event)"
-                ></create-grant-type> -->
-                <div class="col-12 text-center">
-                  <button mat-raised-button color="primary">
-                    Sélectionner les grant types
-                    <mat-icon>add</mat-icon>
-                  </button>
-                </div>
-                <div class="wrapper" style="padding: 10px">
-                  <div class="chips">
-                    <mat-chip-listbox #chipList>
-                      <mat-chip-option [selectable]="false" [removable]="true">
-                        client credentials
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                      </mat-chip-option>
-                      <mat-chip-option [selectable]="false" [removable]="true">
-                        implicit
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                      </mat-chip-option>
-                    </mat-chip-listbox>
-                  </div>
-                  <!-- <div class="text-center empty">
-                    <div class="alert alert-warning" role="alert">
-                      <p>
-                        <mat-icon color="warn">warning</mat-icon><br />
-                        Attention vous n'avez sélectionné aucun grant type.
-                        Votre client ne sera pas fonctionnel.<br />
-                        Ajoutez en un en cliquant sur "Sélectionner les grant
-                        types"
-                      </p>
-                    </div>
-                  </div> -->
-                </div>
+                <create-grant-type
+                  [grantTypeData]="viewModel.grantTypesData"
+                  (gtSelectionChange)="viewModel.onGtSelectionChange($event)"
+                ></create-grant-type>
               </div>
               <div class="col-4 inline v-aligntop">
                 <!-- <create-scope
@@ -561,13 +497,14 @@
             </div>
           </mat-step>
 
+          @if (viewModel.showUriConfig) {
           <mat-step>
             <ng-template matStepLabel>Uris configuration</ng-template>
             <div class="col-12 paddingTop20">
               <div class="col-6 inline v-aligntop">
                 <!-- <create-redirect-uris
-                  (uriChanged)="onUriChanged($event)"
-                ></create-redirect-uris> -->
+                    (uriChanged)="onUriChanged($event)"
+                  ></create-redirect-uris> -->
                 <div class="col-12 text-center">
                   <button mat-raised-button color="primary">
                     Ajouter les redirect uris
@@ -599,23 +536,23 @@
                   </table>
 
                   <!-- <div *ngIf="!hasredirectUris" class="text-center empty">
-                    <div class="alert alert-warning" role="alert">
-                      <p>
-                        <mat-icon color="warn">warning</mat-icon>
-                        <br />
-                        Attention aucune callback n'a été ajoutée, or le grant
-                        type sélectionné nécessite une url de callback. <br />
-                        Ajoutez en un en cliquant sur "Ajouter les redirect
-                        uris"
-                      </p>
-                    </div>
-                  </div> -->
+                      <div class="alert alert-warning" role="alert">
+                        <p>
+                          <mat-icon color="warn">warning</mat-icon>
+                          <br />
+                          Attention aucune callback n'a été ajoutée, or le grant
+                          type sélectionné nécessite une url de callback. <br />
+                          Ajoutez en un en cliquant sur "Ajouter les redirect
+                          uris"
+                        </p>
+                      </div>
+                    </div> -->
                 </div>
               </div>
               <div class="col-6 inline v-aligntop">
                 <!-- <create-cors-origins
-                  (corsChanged)="onCorsChanged($event)"
-                ></create-cors-origins> -->
+                    (corsChanged)="onCorsChanged($event)"
+                  ></create-cors-origins> -->
                 <div class="col-12 text-center">
                   <button mat-raised-button color="primary">
                     Ajouter les Cors origins
@@ -646,24 +583,24 @@
                     </tr>
                   </table>
                   <!-- <div *ngIf="!hasOrigins" class="text-center empty">
-                    <div class="alert alert-warning" role="alert">
-                      <p>
-                        <mat-icon color="warn">warning</mat-icon>
-                        <br />
-                        Attention ne pas configurer les CORS origins peut
-                        invalider le client si celui-ci représente une SPA.
-                        <br />
-                        Configurer les en cliquant sur "Ajouter les Cors
-                        origins"
-                      </p>
-                    </div>
-                  </div> -->
+                      <div class="alert alert-warning" role="alert">
+                        <p>
+                          <mat-icon color="warn">warning</mat-icon>
+                          <br />
+                          Attention ne pas configurer les CORS origins peut
+                          invalider le client si celui-ci représente une SPA.
+                          <br />
+                          Configurer les en cliquant sur "Ajouter les Cors
+                          origins"
+                        </p>
+                      </div>
+                    </div> -->
                 </div>
               </div>
               <div class="col-6 offset-md-3 v-aligntop">
                 <!-- <create-post-logout-redirect-uris
-                  (plUriChanged)="OnPlUriChanged($event)"
-                ></create-post-logout-redirect-uris> -->
+                    (plUriChanged)="OnPlUriChanged($event)"
+                  ></create-post-logout-redirect-uris> -->
                 <div class="col-12 text-center">
                   <button mat-raised-button color="primary">
                     Ajouter les post logout redirect uris
@@ -686,17 +623,17 @@
                     </tr>
                   </table>
                   <!-- <div *ngIf="!hasredirectUris" class="text-center empty">
-                    <div class="alert alert-warning" role="alert">
-                      <p>
-                        <mat-icon color="warn">warning</mat-icon>
-                        <br />
-                        Attention aucune callback n'a été ajoutée, or le grant
-                        type sélectionné nécessite une url de callback. <br />
-                        Ajoutez en un en cliquant sur "Ajouter les post logout
-                        redirect uris"
-                      </p>
-                    </div>
-                  </div> -->
+                      <div class="alert alert-warning" role="alert">
+                        <p>
+                          <mat-icon color="warn">warning</mat-icon>
+                          <br />
+                          Attention aucune callback n'a été ajoutée, or le grant
+                          type sélectionné nécessite une url de callback. <br />
+                          Ajoutez en un en cliquant sur "Ajouter les post logout
+                          redirect uris"
+                        </p>
+                      </div>
+                    </div> -->
                 </div>
               </div>
             </div>
@@ -711,6 +648,7 @@
               </div>
             </div>
           </mat-step>
+          }
         </mat-horizontal-stepper>
       </mat-card-content>
     </mat-card>
