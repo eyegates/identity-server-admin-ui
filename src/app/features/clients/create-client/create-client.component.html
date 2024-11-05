@@ -304,41 +304,9 @@
                 ></create-grant-type>
               </div>
               <div class="col-4 inline v-aligntop">
-                <!-- <create-scope
-                  (scopeChanged)="onScopeChange($event)"
-                ></create-scope> -->
-                <div class="col-12 text-center">
-                  <button mat-raised-button color="primary">
-                    Ajouter les scopes
-                    <mat-icon>add</mat-icon>
-                  </button>
-                </div>
-                <div class="wrapper" style="padding: 10px; text-align: center">
-                  <div class="chips">
-                    <mat-chip-listbox #chipList>
-                      <mat-chip-option [selectable]="false" [removable]="true">
-                        api1
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                      </mat-chip-option>
-                      <mat-chip-option [selectable]="false" [removable]="true">
-                        api2
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                      </mat-chip-option>
-                    </mat-chip-listbox>
-                  </div>
-
-                  <!-- <div *ngIf="!hasScopes" class="text-center empty">
-                    <div class="alert alert-warning" role="alert">
-                      <p>
-                        <mat-icon color="warn">warning</mat-icon>
-                        <br />
-                        Attention aucun scope n'a été ajouté. Votre client ne
-                        pourra pas accéder aux ressources.<br />
-                        Ajoutez en un en cliquant sur "Ajouter les scopes"
-                      </p>
-                    </div>
-                  </div> -->
-                </div>
+                <ids-create-client-scope
+                  (scopeChanged)="viewModel.onScopeChange($event)"
+                ></ids-create-client-scope>
               </div>
               <div class="col-4 inline v-aligntop">
                 <!-- <create-restriction

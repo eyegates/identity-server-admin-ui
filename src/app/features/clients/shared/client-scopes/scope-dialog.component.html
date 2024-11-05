@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Ajouter un scope</h2>
+<mat-dialog-content>
+  <mat-form-field class="col-12" appearance="outline">
+    <input
+      matInput
+      [(ngModel)]="scope.scope"
+      placeholder="Scope value"
+      name="scope"
+    />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button
+    mat-raised-button
+    [mat-dialog-close]="scope"
+    color="primary"
+    cdkFocusInitial
+    [disabled]="scope.scope == ''"
+  >
+    Ajouter
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-dialog-actions>

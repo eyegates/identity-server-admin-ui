@@ -103,6 +103,9 @@ export class CreateClientViewModel {
     }
     this.clientFormGroup.patchValue({ allowedGrantTypes: grantTypes });
   }
+  onScopeChange(scopes: ClientScope[]) {
+    this.clientFormGroup.patchValue({ allowedScopes: scopes });
+  }
 }
 
 export const buildCreateClientViewModel = (

@@ -14,6 +14,7 @@ import { buildCreateClientViewModel } from './create-client.viewmodel';
 import { CreateClientSecretsComponent } from '../shared/client-secrets/create-client-secrets.component';
 import { JsonPipe } from '@angular/common';
 import { CreateGrantTypeComponent } from '../shared/client-grant-types/create-grant-type.component';
+import { CreateClientScopeComponent } from '../shared/client-scopes/create-client-scope.component';
 
 @Component({
   selector: 'ids-create-client',
@@ -34,6 +35,7 @@ import { CreateGrantTypeComponent } from '../shared/client-grant-types/create-gr
     JsonPipe,
     CreateClientSecretsComponent,
     CreateGrantTypeComponent,
+    CreateClientScopeComponent,
   ],
   templateUrl: './create-client.component.html',
   styleUrl: './create-client.component.sass',

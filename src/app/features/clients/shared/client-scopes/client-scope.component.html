@@ -1,0 +1,38 @@
+<div class="col-12 text-center">
+  <button mat-raised-button color="primary" (click)="openDialog()">
+    Ajouter les scopes
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<div class="wrapper" style="padding: 10px; text-align: center">
+  <div class="chips">
+    @if(hasScopes){
+    <mat-chip-listbox #chipList>
+      @for(scope of scopes; track scope){
+      <mat-chip-option
+        [selectable]="false"
+        [removable]="true"
+        (removed)="deleteScope(scope)"
+      >
+        {{ scope.scope }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip-option>
+
+      }
+    </mat-chip-listbox>
+    }
+  </div>
+  @if(!hasScopes){
+  <div class="text-center empty">
+    <div class="alert alert-warning" role="alert">
+      <p>
+        <mat-icon color="warn">warning</mat-icon>
+        <br />
+        Attention aucun scope n'a été ajouté. Votre client ne pourra pas accéder
+        aux ressources.<br />
+        Ajoutez en un en cliquant sur "Ajouter les scopes"
+      </p>
+    </div>
+  </div>
+  }
+</div>
